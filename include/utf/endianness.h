@@ -31,4 +31,18 @@ utf_is_be (void) {
   return utf_endianness() == utf_be;
 }
 
+inline uint16_t
+utf_swap_uint16 (uint16_t n) {
+  return ((n & 0x00ff) << 8) |
+         ((n & 0xff00) >> 8);
+}
+
+inline uint32_t
+utf_swap_uint32 (uint32_t n) {
+  return ((n & 0x000000ff) << 24) |
+         ((n & 0x0000ff00) << 8) |
+         ((n & 0x00ff0000) >> 8) |
+         ((n & 0xff000000) >> 24);
+}
+
 #endif // UTF_ENDIANNESS_H
