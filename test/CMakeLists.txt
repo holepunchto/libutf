@@ -1,6 +1,8 @@
 list(APPEND tests
+  utf8/utf16-length
   utf8/validate
   utf8/validate-invalid
+  utf16/utf8-length
   utf16/validate
   utf16/validate-invalid
 )

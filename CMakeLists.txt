@@ -17,7 +17,9 @@ target_sources(
     include/utf.h
   PRIVATE
     src/endianness.c
+    src/utf8/utf16-length.c
     src/utf8/validate.c
+    src/utf16/utf8-length.c
     src/utf16/validate.c
 )
 
