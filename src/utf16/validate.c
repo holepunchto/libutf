@@ -23,11 +23,6 @@
  */
 
 bool
-utf16_validate (const utf16_t *data, size_t len) {
-  return utf_is_le() ? utf16le_validate(data, len) : utf16be_validate(data, len);
-}
-
-bool
 utf16le_validate (const utf16_t *data, size_t len) {
   uint64_t pos = 0;
   uint16_t word, diff;
