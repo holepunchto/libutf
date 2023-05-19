@@ -24,11 +24,7 @@
 
 bool
 utf16_validate (const utf16_t *data, size_t len) {
-  if (utf_is_le()) {
-    return utf16le_validate(data, len);
-  } else {
-    return utf16be_validate(data, len);
-  }
+  return utf_is_le() ? utf16le_validate(data, len) : utf16be_validate(data, len);
 }
 
 bool
