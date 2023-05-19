@@ -50,32 +50,3 @@ utf16le_validate (const utf16_t *data, size_t len) {
 
   return true;
 }
-
-bool
-utf16be_validate (const utf16_t *data, size_t len) {
-  uint64_t pos = 0;
-  uint16_t word, diff;
-
-  while (pos < len) {
-    word = utf_is_le() ? utf_swap_uint16(data[pos]) : data[pos];
-    if ((word & 0xf800) == 0xd800) {
-      if (pos + 1 >= len) {
-        return false;
-      }
-      diff = word - 0xd800;
-      if (diff > 0x3ff) {
-        return false;
-      }
-      word = utf_is_le() ? utf_swap_uint16(data[pos + 1]) : data[pos + 1];
-      diff = word - 0xdc00;
-      if (diff > 0x3ff) {
-        return false;
-      }
-      pos += 2;
-    } else {
-      pos++;
-    }
-  }
-
-  return true;
-}
