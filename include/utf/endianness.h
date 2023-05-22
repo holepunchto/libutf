@@ -4,12 +4,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-typedef enum utf_endianness_e utf_endianness_t;
-
-enum utf_endianness_e {
+typedef enum {
   utf_le,
   utf_be
-};
+} utf_endianness_t;
 
 inline utf_endianness_t
 utf_endianness (void) {
