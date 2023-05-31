@@ -53,6 +53,8 @@ install(TARGETS utf_shared utf_static)
 
 install(FILES include/utf.h DESTINATION include)
 
+install(DIRECTORY include/utf DESTINATION include)
+
 if(PROJECT_IS_TOP_LEVEL)
   enable_testing()
   add_subdirectory(test)
