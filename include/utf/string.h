@@ -56,6 +56,9 @@ int
 utf8_string_append_string (utf8_string_t *string, const utf8_string_t *other);
 
 int
+utf8_string_append_string_view (utf8_string_t *string, const utf8_string_view_t view);
+
+int
 utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other);
 
 int
