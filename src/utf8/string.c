@@ -123,20 +123,60 @@ utf8_string_append_string_view (utf8_string_t *string, const utf8_string_view_t 
 
 int
 utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other) {
-  return strncmp((const char *) string->data, (const char *) other->data, string->len < other->len ? string->len : other->len);
+  int a_len = string->len;
+  int b_len = other->len;
+
+  int result = strncmp((const char *) string->data, (const char *) other->data, a_len < b_len ? a_len : b_len);
+
+  if (result == 0) return a_len < b_len
+                            ? -1
+                          : a_len > b_len ? 1
+                                          : 0;
+
+  return result;
 }
 
 int
 utf8_string_view_compare (const utf8_string_view_t view, const utf8_string_view_t other) {
-  return strncmp((const char *) view.data, (const char *) other.data, view.len < other.len ? view.len : other.len);
+  int a_len = view.len;
+  int b_len = other.len;
+
+  int result = strncmp((const char *) view.data, (const char *) other.data, a_len < b_len ? a_len : b_len);
+
+  if (result == 0) return a_len < b_len
+                            ? -1
+                          : a_len > b_len ? 1
+                                          : 0;
+
+  return result;
 }
 
 int
 utf8_string_compare_literal (const utf8_string_t *string, const char *literal) {
-  return strncmp((const char *) string->data, literal, string->len);
+  int a_len = string->len;
+  int b_len = strlen(literal);
+
+  int result = strncmp((const char *) string->data, literal, a_len < b_len ? a_len : b_len);
+
+  if (result == 0) return a_len < b_len
+                            ? -1
+                          : a_len > b_len ? 1
+                                          : 0;
+
+  return result;
 }
 
 int
 utf8_string_view_compare_literal (const utf8_string_view_t view, const char *literal) {
-  return strncmp((const char *) view.data, literal, view.len);
+  int a_len = view.len;
+  int b_len = strlen(literal);
+
+  int result = strncmp((const char *) view.data, literal, a_len < b_len ? a_len : b_len);
+
+  if (result == 0) return a_len < b_len
+                            ? -1
+                          : a_len > b_len ? 1
+                                          : 0;
+
+  return result;
 }
