@@ -1,6 +1,10 @@
 #ifndef UTF_ENDIANNESS_H
 #define UTF_ENDIANNESS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -42,5 +46,9 @@ utf_swap_uint32 (uint32_t n) {
          ((n & 0x00ff0000) >> 8) |
          ((n & 0xff000000) >> 24);
 }
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // UTF_ENDIANNESS_H

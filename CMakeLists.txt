@@ -20,6 +20,7 @@ target_sources(
     src/utf8/utf16-convert.c
     src/utf8/utf16-length.c
     src/utf8/validate.c
+    src/utf8/string.c
     src/utf16/utf8-convert.c
     src/utf16/utf8-length.c
     src/utf16/validate.c

@@ -9,8 +9,6 @@ extern "C" {
 #include <stddef.h>
 #include <stdint.h>
 
-#include "utf/endianness.h"
-
 typedef uint_least8_t utf8_t;
 typedef uint_least16_t utf16_t;
 

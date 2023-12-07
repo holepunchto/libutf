@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "../../include/utf.h"
+#include "../../include/utf/endianness.h"
 
 /**
  * Modified from https://github.com/simdutf/simdutf
