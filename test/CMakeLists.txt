@@ -3,7 +3,8 @@ list(APPEND tests
   utf8/utf16-length
   utf8/validate
   utf8/validate-invalid
-  utf8/string
+  utf8/string-append
+  utf8/string-substring
   utf16/utf8-convert
   utf16/utf8-length
   utf16/validate
