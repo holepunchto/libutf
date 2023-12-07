@@ -117,6 +117,21 @@ utf8_string_append_string (utf8_string_t *string, const utf8_string_t *other) {
 }
 
 int
-utf8_string_compare (utf8_string_t *string, utf8_string_t *other) {
+utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other) {
   return strcmp((const char *) string->data, (const char *) other->data);
+}
+
+int
+utf8_string_view_compare (const utf8_string_view_t *view, const utf8_string_view_t *other) {
+  return strcmp((const char *) view->data, (const char *) other->data);
+}
+
+int
+utf8_string_compare_literal (const utf8_string_t *string, const char *literal) {
+  return strcmp((const char *) string->data, literal);
+}
+
+int
+utf8_string_view_compare_literal (const utf8_string_view_t *view, const char *literal) {
+  return strcmp((const char *) view->data, literal);
 }

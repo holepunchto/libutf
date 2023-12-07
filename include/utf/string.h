@@ -56,7 +56,16 @@ int
 utf8_string_append_string (utf8_string_t *string, const utf8_string_t *other);
 
 int
-utf8_string_compare (utf8_string_t *string, utf8_string_t *other);
+utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other);
+
+int
+utf8_string_view_compare (const utf8_string_view_t *view, const utf8_string_view_t *other);
+
+int
+utf8_string_compare_literal (const utf8_string_t *string, const char *literal);
+
+int
+utf8_string_view_compare_literal (const utf8_string_view_t *view, const char *literal);
 
 #ifdef __cplusplus
 }
