@@ -118,20 +118,20 @@ utf8_string_append_string (utf8_string_t *string, const utf8_string_t *other) {
 
 int
 utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other) {
-  return strcmp((const char *) string->data, (const char *) other->data);
+  return strncmp((const char *) string->data, (const char *) other->data, string->len < other->len ? string->len : other->len);
 }
 
 int
 utf8_string_view_compare (const utf8_string_view_t view, const utf8_string_view_t other) {
-  return strcmp((const char *) view.data, (const char *) other.data);
+  return strncmp((const char *) view.data, (const char *) other.data, view.len < other.len ? view.len : other.len);
 }
 
 int
 utf8_string_compare_literal (const utf8_string_t *string, const char *literal) {
-  return strcmp((const char *) string->data, literal);
+  return strncmp((const char *) string->data, literal, string->len);
 }
 
 int
 utf8_string_view_compare_literal (const utf8_string_view_t view, const char *literal) {
-  return strcmp((const char *) view.data, literal);
+  return strncmp((const char *) view.data, literal, view.len);
 }
