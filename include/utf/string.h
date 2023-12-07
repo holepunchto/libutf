@@ -40,6 +40,9 @@ utf8_string_reserve (utf8_string_t *string, size_t len);
 int
 utf8_string_shrink_to_fit (utf8_string_t *string);
 
+int
+utf8_string_clear (utf8_string_t *string);
+
 bool
 utf8_string_empty (utf8_string_t *string);
 
@@ -51,6 +54,9 @@ utf8_string_append_characters (utf8_string_t *string, const utf8_t *characters, 
 
 int
 utf8_string_append_string (utf8_string_t *string, const utf8_string_t *other);
+
+int
+utf8_string_compare (utf8_string_t *string, utf8_string_t *other);
 
 #ifdef __cplusplus
 }

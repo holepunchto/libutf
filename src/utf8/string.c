@@ -54,6 +54,13 @@ utf8_string_shrink_to_fit (utf8_string_t *string) {
   return 0;
 }
 
+int
+utf8_string_clear (utf8_string_t *string) {
+  utf8_string_destroy(string);
+
+  return utf8_string_init(string);
+}
+
 bool
 utf8_string_empty (utf8_string_t *string) {
   return string->len == 0;
@@ -107,4 +114,9 @@ utf8_string_append_string (utf8_string_t *string, const utf8_string_t *other) {
   string->data[string->len] = 0;
 
   return 0;
+}
+
+int
+utf8_string_compare (utf8_string_t *string, utf8_string_t *other) {
+  return strcmp((const char *) string->data, (const char *) other->data);
 }
