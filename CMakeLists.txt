@@ -32,7 +32,7 @@ target_include_directories(
     include
 )
 
-add_library(utf_shared SHARED $<TARGET_OBJECTS:utf>)
+add_library(utf_shared SHARED)
 
 set_target_properties(
   utf_shared
@@ -41,13 +41,25 @@ set_target_properties(
   WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
 
-add_library(utf_static STATIC $<TARGET_OBJECTS:utf>)
+target_link_libraries(
+  utf_shared
+  PUBLIC
+    utf
+)
+
+add_library(utf_static STATIC)
 
 set_target_properties(
   utf_static
   PROPERTIES
   OUTPUT_NAME utf
   PREFIX lib
+)
+
+target_link_libraries(
+  utf_static
+  PUBLIC
+    utf
 )
 
 install(TARGETS utf_shared utf_static)
