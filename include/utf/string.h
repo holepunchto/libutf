@@ -40,11 +40,20 @@ utf8_string_reserve (utf8_string_t *string, size_t len);
 int
 utf8_string_shrink_to_fit (utf8_string_t *string);
 
-void
-utf8_string_clear (utf8_string_t *string);
+inline void
+utf8_string_clear (utf8_string_t *string) {
+  string->len = 0;
+}
 
-bool
-utf8_string_empty (utf8_string_t *string);
+inline bool
+utf8_string_empty (utf8_string_t *string) {
+  return string->len == 0;
+}
+
+inline bool
+utf8_string_view_empty (const utf8_string_view_t view) {
+  return view.len == 0;
+}
 
 int
 utf8_string_append (utf8_string_t *string, const utf8_string_t *other);

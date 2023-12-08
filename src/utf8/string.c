@@ -54,15 +54,14 @@ utf8_string_shrink_to_fit (utf8_string_t *string) {
   return 0;
 }
 
-void
-utf8_string_clear (utf8_string_t *string) {
-  string->len = 0;
-}
+extern void
+utf8_string_clear (utf8_string_t *string);
 
-bool
-utf8_string_empty (utf8_string_t *string) {
-  return string->len == 0;
-}
+extern bool
+utf8_string_empty (utf8_string_t *string);
+
+extern bool
+utf8_string_view_empty (const utf8_string_view_t view);
 
 int
 utf8_string_append (utf8_string_t *string, const utf8_string_t *other) {
