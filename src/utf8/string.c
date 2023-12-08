@@ -54,11 +54,9 @@ utf8_string_shrink_to_fit (utf8_string_t *string) {
   return 0;
 }
 
-int
+void
 utf8_string_clear (utf8_string_t *string) {
-  utf8_string_destroy(string);
-
-  return utf8_string_init(string);
+  string->len = 0;
 }
 
 bool
@@ -113,6 +111,67 @@ utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t
   if (err < 0) return -1;
 
   memcpy(&string->data[string->len], literal, len);
+
+  string->len += len;
+
+  string->data[string->len] = 0;
+
+  return 0;
+}
+
+int
+utf8_string_prepend (utf8_string_t *string, const utf8_string_t *other) {
+  int err;
+
+  err = utf8_string_reserve(string, string->len + other->len);
+  if (err < 0) return -1;
+
+  memmove(&string->data[other->len], string->data, string->len);
+
+  memcpy(string->data, other->data, other->len);
+
+  string->len += other->len;
+
+  string->data[string->len] = 0;
+
+  return 0;
+}
+
+int
+utf8_string_prepend_view (utf8_string_t *string, const utf8_string_view_t view) {
+  return utf8_string_prepend_literal(string, view.data, view.len);
+}
+
+int
+utf8_string_prepend_character (utf8_string_t *string, utf8_t character) {
+  int err;
+
+  err = utf8_string_reserve(string, string->len + 1);
+  if (err < 0) return -1;
+
+  memmove(&string->data[1], string->data, string->len);
+
+  string->data[0] = character;
+
+  string->len += 1;
+
+  string->data[string->len] = 0;
+
+  return 0;
+}
+
+int
+utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t len) {
+  int err;
+
+  if (len == (size_t) -1) len = strlen((const char *) literal);
+
+  err = utf8_string_reserve(string, string->len + len);
+  if (err < 0) return -1;
+
+  memmove(&string->data[len], string->data, string->len);
+
+  memcpy(string->data, literal, len);
 
   string->len += len;
 

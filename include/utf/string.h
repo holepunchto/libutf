@@ -40,7 +40,7 @@ utf8_string_reserve (utf8_string_t *string, size_t len);
 int
 utf8_string_shrink_to_fit (utf8_string_t *string);
 
-int
+void
 utf8_string_clear (utf8_string_t *string);
 
 bool
@@ -57,6 +57,18 @@ utf8_string_append_character (utf8_string_t *string, utf8_t character);
 
 int
 utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t len);
+
+int
+utf8_string_prepend (utf8_string_t *string, const utf8_string_t *other);
+
+int
+utf8_string_prepend_view (utf8_string_t *string, const utf8_string_view_t view);
+
+int
+utf8_string_prepend_character (utf8_string_t *string, utf8_t character);
+
+int
+utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t len);
 
 int
 utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other);
