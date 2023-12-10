@@ -245,7 +245,7 @@ utf8_string_view_compare_literal (const utf8_string_view_t view, const char *lit
 
 utf8_string_view_t
 utf8_string_substring (const utf8_string_t *string, size_t start, size_t end) {
-  if (end > string->len) end = string->len;
+  if (end == (size_t) -1 || end > string->len) end = string->len;
   if (start > end) start = end;
 
   return (utf8_string_view_t){
@@ -256,7 +256,7 @@ utf8_string_substring (const utf8_string_t *string, size_t start, size_t end) {
 
 utf8_string_view_t
 utf8_string_view_substring (const utf8_string_view_t view, size_t start, size_t end) {
-  if (end > view.len) end = view.len;
+  if (end == (size_t) -1 || end > view.len) end = view.len;
   if (start > end) start = end;
 
   return (utf8_string_view_t){
@@ -269,7 +269,7 @@ int
 utf8_string_substring_copy (const utf8_string_t *string, size_t start, size_t end, utf8_string_t *result) {
   int err;
 
-  if (end > string->len) end = string->len;
+  if (end == (size_t) -1 || end > string->len) end = string->len;
   if (start > end) start = end;
 
   size_t len = end - start;
@@ -288,7 +288,7 @@ int
 utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, size_t end, utf8_string_t *result) {
   int err;
 
-  if (end > view.len) end = view.len;
+  if (end == (size_t) -1 || end > view.len) end = view.len;
   if (start > end) start = end;
 
   size_t len = end - start;
@@ -301,4 +301,54 @@ utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, si
   result->len = len;
 
   return 0;
+}
+
+size_t
+utf8_string_index_of_character (const utf8_string_t *string, utf8_t character, size_t position) {
+  for (size_t i = position, n = string->len; i < n; i++) {
+    if (string->data[i] == character) {
+      return i;
+    }
+  }
+
+  return (size_t) -1;
+}
+
+size_t
+utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position) {
+  for (size_t i = position, n = view.len; i < n; i++) {
+    if (view.data[i] == character) {
+      return i;
+    }
+  }
+
+  return (size_t) -1;
+}
+
+size_t
+utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t character, size_t position) {
+  if (position == (size_t) -1) position = string->len - 1;
+  else if (position >= string->len) return (size_t) -1;
+
+  for (size_t i = position; i >= 0; i--) {
+    if (string->data[i] == character) {
+      return i;
+    }
+  }
+
+  return (size_t) -1;
+}
+
+size_t
+utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position) {
+  if (position == (size_t) -1) position = view.len - 1;
+  else if (position >= view.len) return (size_t) -1;
+
+  for (size_t i = position; i >= 0; i--) {
+    if (view.data[i] == character) {
+      return i;
+    }
+  }
+
+  return (size_t) -1;
 }

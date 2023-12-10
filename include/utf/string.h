@@ -103,6 +103,18 @@ utf8_string_substring_copy (const utf8_string_t *string, size_t start, size_t en
 int
 utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, size_t end, utf8_string_t *result);
 
+size_t
+utf8_string_index_of_character (const utf8_string_t *string, utf8_t character, size_t position);
+
+size_t
+utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position);
+
+size_t
+utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t character, size_t position);
+
+size_t
+utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position);
+
 #ifdef __cplusplus
 }
 #endif
