@@ -56,6 +56,12 @@ utf8_string_view_empty (const utf8_string_view_t view) {
 }
 
 int
+utf8_string_copy (const utf8_string_t *string, utf8_string_t *result);
+
+int
+utf8_string_view_copy (const utf8_string_view_t view, utf8_string_t *result);
+
+int
 utf8_string_append (utf8_string_t *string, const utf8_string_t *other);
 
 int

@@ -64,6 +64,34 @@ extern bool
 utf8_string_view_empty (const utf8_string_view_t view);
 
 int
+utf8_string_copy (const utf8_string_t *string, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_reserve(result, string->len);
+  if (err < 0) return err;
+
+  memcpy(result->data, string->data, string->len);
+
+  result->len = string->len;
+
+  return 0;
+}
+
+int
+utf8_string_view_copy (const utf8_string_view_t view, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_reserve(result, view.len);
+  if (err < 0) return err;
+
+  memcpy(result->data, view.data, view.len);
+
+  result->len = view.len;
+
+  return 0;
+}
+
+int
 utf8_string_append (utf8_string_t *string, const utf8_string_t *other) {
   int err;
 
