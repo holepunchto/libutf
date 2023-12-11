@@ -9,8 +9,7 @@ main () {
   int e;
 
   utf8_string_t string;
-  e = utf8_string_init(&string);
-  assert(e == 0);
+  utf8_string_init(&string);
 
   e = utf8_string_append_literal(&string, (utf8_t *) "hello", -1);
   assert(e == 0);

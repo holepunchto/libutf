@@ -5,13 +5,16 @@
 
 #include "../../include/utf/string.h"
 
-int
+void
 utf8_string_init (utf8_string_t *string) {
   string->len = 0;
   string->cap = 0;
   string->data = NULL;
+}
 
-  return 0;
+utf8_string_view_t
+utf8_string_view_init (const utf8_t *data, size_t len) {
+  return (utf8_string_view_t){data, len};
 }
 
 void
@@ -298,8 +301,7 @@ int
 utf8_string_concat (const utf8_string_t *string, const utf8_string_t *other, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, string->len + other->len);
   if (err < 0) return err;
@@ -317,8 +319,7 @@ int
 utf8_string_view_concat (const utf8_string_view_t view, const utf8_string_t *other, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, view.len + other->len);
   if (err < 0) return err;
@@ -336,8 +337,7 @@ int
 utf8_string_concat_view (const utf8_string_t *string, const utf8_string_view_t other, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, string->len + other.len);
   if (err < 0) return err;
@@ -355,8 +355,7 @@ int
 utf8_string_view_concat_view (const utf8_string_view_t view, const utf8_string_view_t other, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, view.len + other.len);
   if (err < 0) return err;
@@ -374,8 +373,7 @@ int
 utf8_string_concat_character (const utf8_string_t *string, utf8_t c, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, string->len + 1);
   if (err < 0) return err;
@@ -393,8 +391,7 @@ int
 utf8_string_view_concat_character (const utf8_string_view_t view, utf8_t c, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, view.len + 1);
   if (err < 0) return err;
@@ -412,8 +409,7 @@ int
 utf8_string_concat_literal (const utf8_string_t *string, const utf8_t *literal, size_t n, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, string->len + n);
   if (err < 0) return err;
@@ -431,8 +427,7 @@ int
 utf8_string_view_concat_literal (const utf8_string_view_t view, const utf8_t *literal, size_t n, utf8_string_t *result) {
   int err;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   err = utf8_string_reserve(result, view.len + n);
   if (err < 0) return err;
@@ -539,8 +534,7 @@ utf8_string_substring_copy (const utf8_string_t *string, size_t start, size_t en
   if (end == (size_t) -1 || end > string->len) end = string->len;
   if (start > end) start = end;
 
-  err = utf8_string_init(result);
-  if (err < 0) return err;
+  utf8_string_init(result);
 
   size_t len = end - start;
 

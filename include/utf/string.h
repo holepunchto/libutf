@@ -28,8 +28,11 @@ struct utf8_string_view_s {
   size_t len;
 };
 
-int
+void
 utf8_string_init (utf8_string_t *string);
+
+utf8_string_view_t
+utf8_string_view_init (const utf8_t *data, size_t len);
 
 void
 utf8_string_destroy (utf8_string_t *string);
