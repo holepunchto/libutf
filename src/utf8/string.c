@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
@@ -294,6 +295,158 @@ utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, cons
 }
 
 int
+utf8_string_concat (const utf8_string_t *string, const utf8_string_t *other, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, string->len + other->len);
+  if (err < 0) return err;
+
+  err = utf8_string_append(result, string);
+  assert(err == 0);
+
+  err = utf8_string_append(result, other);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
+utf8_string_view_concat (const utf8_string_view_t view, const utf8_string_t *other, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, view.len + other->len);
+  if (err < 0) return err;
+
+  err = utf8_string_append_view(result, view);
+  assert(err == 0);
+
+  err = utf8_string_append(result, other);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
+utf8_string_concat_view (const utf8_string_t *string, const utf8_string_view_t other, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, string->len + other.len);
+  if (err < 0) return err;
+
+  err = utf8_string_append(result, string);
+  assert(err == 0);
+
+  err = utf8_string_append_view(result, other);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
+utf8_string_view_concat_view (const utf8_string_view_t view, const utf8_string_view_t other, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, view.len + other.len);
+  if (err < 0) return err;
+
+  err = utf8_string_append_view(result, view);
+  assert(err == 0);
+
+  err = utf8_string_append_view(result, other);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
+utf8_string_concat_character (const utf8_string_t *string, utf8_t c, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, string->len + 1);
+  if (err < 0) return err;
+
+  err = utf8_string_append(result, string);
+  assert(err == 0);
+
+  err = utf8_string_append_character(result, c);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
+utf8_string_view_concat_character (const utf8_string_view_t view, utf8_t c, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, view.len + 1);
+  if (err < 0) return err;
+
+  err = utf8_string_append_view(result, view);
+  assert(err == 0);
+
+  err = utf8_string_append_character(result, c);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
+utf8_string_concat_literal (const utf8_string_t *string, const utf8_t *literal, size_t n, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, string->len + n);
+  if (err < 0) return err;
+
+  err = utf8_string_append(result, string);
+  assert(err == 0);
+
+  err = utf8_string_append_literal(result, literal, n);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
+utf8_string_view_concat_literal (const utf8_string_view_t view, const utf8_t *literal, size_t n, utf8_string_t *result) {
+  int err;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
+
+  err = utf8_string_reserve(result, view.len + n);
+  if (err < 0) return err;
+
+  err = utf8_string_append_view(result, view);
+  assert(err == 0);
+
+  err = utf8_string_append_literal(result, literal, n);
+  assert(err == 0);
+
+  return 0;
+}
+
+int
 utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other) {
   size_t a_len = string->len;
   size_t b_len = other->len;
@@ -385,6 +538,9 @@ utf8_string_substring_copy (const utf8_string_t *string, size_t start, size_t en
 
   if (end == (size_t) -1 || end > string->len) end = string->len;
   if (start > end) start = end;
+
+  err = utf8_string_init(result);
+  if (err < 0) return err;
 
   size_t len = end - start;
 

@@ -98,6 +98,30 @@ int
 utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, const utf8_t *literal, size_t n);
 
 int
+utf8_string_concat (const utf8_string_t *string, const utf8_string_t *other, utf8_string_t *result);
+
+int
+utf8_string_view_concat (const utf8_string_view_t view, const utf8_string_t *other, utf8_string_t *result);
+
+int
+utf8_string_concat_view (const utf8_string_t *string, const utf8_string_view_t other, utf8_string_t *result);
+
+int
+utf8_string_view_concat_view (const utf8_string_view_t view, const utf8_string_view_t other, utf8_string_t *result);
+
+int
+utf8_string_concat_character (const utf8_string_t *string, utf8_t c, utf8_string_t *result);
+
+int
+utf8_string_view_concat_character (const utf8_string_view_t view, utf8_t c, utf8_string_t *result);
+
+int
+utf8_string_concat_literal (const utf8_string_t *string, const utf8_t *literal, size_t n, utf8_string_t *result);
+
+int
+utf8_string_view_concat_literal (const utf8_string_view_t view, const utf8_t *literal, size_t n, utf8_string_t *result);
+
+int
 utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other);
 
 int
