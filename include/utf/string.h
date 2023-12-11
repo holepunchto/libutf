@@ -62,10 +62,10 @@ int
 utf8_string_append_view (utf8_string_t *string, const utf8_string_view_t view);
 
 int
-utf8_string_append_character (utf8_string_t *string, utf8_t character);
+utf8_string_append_character (utf8_string_t *string, utf8_t c);
 
 int
-utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t len);
+utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t n);
 
 int
 utf8_string_prepend (utf8_string_t *string, const utf8_string_t *other);
@@ -74,10 +74,22 @@ int
 utf8_string_prepend_view (utf8_string_t *string, const utf8_string_view_t view);
 
 int
-utf8_string_prepend_character (utf8_string_t *string, utf8_t character);
+utf8_string_prepend_character (utf8_string_t *string, utf8_t c);
 
 int
-utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t len);
+utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t n);
+
+int
+utf8_string_replace (utf8_string_t *string, size_t pos, size_t len, const utf8_string_t *replacement);
+
+int
+utf8_string_replace_view (utf8_string_t *string, size_t pos, size_t len, const utf8_string_view_t replacement);
+
+int
+utf8_string_replace_character (utf8_string_t *string, size_t pos, size_t len, utf8_t c);
+
+int
+utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, const utf8_t *literal, size_t n);
 
 int
 utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other);
@@ -86,10 +98,10 @@ int
 utf8_string_view_compare (const utf8_string_view_t view, const utf8_string_view_t other);
 
 int
-utf8_string_compare_literal (const utf8_string_t *string, const char *literal, size_t len);
+utf8_string_compare_literal (const utf8_string_t *string, const utf8_t *literal, size_t n);
 
 int
-utf8_string_view_compare_literal (const utf8_string_view_t view, const char *literal, size_t len);
+utf8_string_view_compare_literal (const utf8_string_view_t view, const utf8_t *literal, size_t n);
 
 utf8_string_view_t
 utf8_string_substring (const utf8_string_t *string, size_t start, size_t end);
@@ -104,16 +116,16 @@ int
 utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, size_t end, utf8_string_t *result);
 
 size_t
-utf8_string_index_of_character (const utf8_string_t *string, utf8_t character, size_t position);
+utf8_string_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos);
 
 size_t
-utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position);
+utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos);
 
 size_t
-utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t character, size_t position);
+utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos);
 
 size_t
-utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position);
+utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos);
 
 #ifdef __cplusplus
 }

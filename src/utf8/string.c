@@ -85,13 +85,13 @@ utf8_string_append_view (utf8_string_t *string, const utf8_string_view_t view) {
 }
 
 int
-utf8_string_append_character (utf8_string_t *string, utf8_t character) {
+utf8_string_append_character (utf8_string_t *string, utf8_t c) {
   int err;
 
   err = utf8_string_reserve(string, string->len + 1);
   if (err < 0) return -1;
 
-  string->data[string->len] = character;
+  string->data[string->len] = c;
 
   string->len += 1;
 
@@ -101,17 +101,17 @@ utf8_string_append_character (utf8_string_t *string, utf8_t character) {
 }
 
 int
-utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t len) {
+utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t n) {
   int err;
 
-  if (len == (size_t) -1) len = strlen((const char *) literal);
+  if (n == (size_t) -1) n = strlen((const char *) literal);
 
-  err = utf8_string_reserve(string, string->len + len);
+  err = utf8_string_reserve(string, string->len + n);
   if (err < 0) return -1;
 
-  memcpy(&string->data[string->len], literal, len);
+  memcpy(&string->data[string->len], literal, n);
 
-  string->len += len;
+  string->len += n;
 
   string->data[string->len] = 0;
 
@@ -142,7 +142,7 @@ utf8_string_prepend_view (utf8_string_t *string, const utf8_string_view_t view) 
 }
 
 int
-utf8_string_prepend_character (utf8_string_t *string, utf8_t character) {
+utf8_string_prepend_character (utf8_string_t *string, utf8_t c) {
   int err;
 
   err = utf8_string_reserve(string, string->len + 1);
@@ -150,7 +150,7 @@ utf8_string_prepend_character (utf8_string_t *string, utf8_t character) {
 
   memmove(&string->data[1], string->data, string->len);
 
-  string->data[0] = character;
+  string->data[0] = c;
 
   string->len += 1;
 
@@ -160,21 +160,107 @@ utf8_string_prepend_character (utf8_string_t *string, utf8_t character) {
 }
 
 int
-utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t len) {
+utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t n) {
   int err;
 
-  if (len == (size_t) -1) len = strlen((const char *) literal);
+  if (n == (size_t) -1) n = strlen((const char *) literal);
 
-  err = utf8_string_reserve(string, string->len + len);
+  err = utf8_string_reserve(string, string->len + n);
   if (err < 0) return -1;
 
-  memmove(&string->data[len], string->data, string->len);
+  memmove(&string->data[n], string->data, string->len);
 
-  memcpy(string->data, literal, len);
+  memcpy(string->data, literal, n);
 
-  string->len += len;
+  string->len += n;
 
   string->data[string->len] = 0;
+
+  return 0;
+}
+
+int
+utf8_string_replace (utf8_string_t *string, size_t pos, size_t len, const utf8_string_t *replacement) {
+  int err;
+
+  if (pos > string->len) return -1;
+  if (pos + len > string->len) len = string->len - pos;
+
+  size_t replaced_len = string->len + replacement->len - len;
+
+  err = utf8_string_reserve(string, replaced_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + replacement->len], &string->data[pos + len], string->len - pos - len + 1);
+
+  memcpy(&string->data[pos], replacement->data, replacement->len);
+
+  string->len = replaced_len;
+
+  return 0;
+}
+
+int
+utf8_string_replace_view (utf8_string_t *string, size_t pos, size_t len, const utf8_string_view_t replacement) {
+  int err;
+
+  if (pos > string->len) return -1;
+  if (pos + len > string->len) len = string->len - pos;
+
+  size_t replaced_len = string->len + replacement.len - len;
+
+  err = utf8_string_reserve(string, replaced_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + replacement.len], &string->data[pos + len], string->len - pos - len + 1);
+
+  memcpy(&string->data[pos], replacement.data, replacement.len);
+
+  string->len = replaced_len;
+
+  return 0;
+}
+
+int
+utf8_string_replace_character (utf8_string_t *string, size_t pos, size_t len, utf8_t c) {
+
+  int err;
+
+  if (pos > string->len) return -1;
+
+  size_t replaced_len = string->len + 1 - len;
+
+  err = utf8_string_reserve(string, replaced_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + 1], &string->data[pos + len], string->len - pos - len + 1);
+
+  string->data[pos] = c;
+
+  string->len = replaced_len;
+
+  return 0;
+}
+
+int
+utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, const utf8_t *literal, size_t n) {
+  int err;
+
+  if (pos > string->len) return -1;
+  if (pos + len > string->len) len = string->len - pos;
+
+  if (n == (size_t) -1) n = strlen((const char *) literal);
+
+  size_t replaced_len = string->len + n - len;
+
+  err = utf8_string_reserve(string, replaced_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + n], &string->data[pos + len], string->len - pos - len + 1);
+
+  memcpy(&string->data[pos], literal, n);
+
+  string->len = replaced_len;
 
   return 0;
 }
@@ -210,13 +296,13 @@ utf8_string_view_compare (const utf8_string_view_t view, const utf8_string_view_
 }
 
 int
-utf8_string_compare_literal (const utf8_string_t *string, const char *literal, size_t len) {
-  if (len == (size_t) -1) len = strlen((const char *) literal);
+utf8_string_compare_literal (const utf8_string_t *string, const utf8_t *literal, size_t n) {
+  if (n == (size_t) -1) n = strlen((const char *) literal);
 
   size_t a_len = string->len;
-  size_t b_len = len;
+  size_t b_len = n;
 
-  int result = strncmp((const char *) string->data, literal, a_len < b_len ? a_len : b_len);
+  int result = strncmp((const char *) string->data, (const char *) literal, a_len < b_len ? a_len : b_len);
 
   if (result == 0) return a_len < b_len
                             ? -1
@@ -227,13 +313,13 @@ utf8_string_compare_literal (const utf8_string_t *string, const char *literal, s
 }
 
 int
-utf8_string_view_compare_literal (const utf8_string_view_t view, const char *literal, size_t len) {
-  if (len == (size_t) -1) len = strlen((const char *) literal);
+utf8_string_view_compare_literal (const utf8_string_view_t view, const utf8_t *literal, size_t n) {
+  if (n == (size_t) -1) n = strlen((const char *) literal);
 
   size_t a_len = view.len;
-  size_t b_len = len;
+  size_t b_len = n;
 
-  int result = strncmp((const char *) view.data, literal, a_len < b_len ? a_len : b_len);
+  int result = strncmp((const char *) view.data, (const char *) literal, a_len < b_len ? a_len : b_len);
 
   if (result == 0) return a_len < b_len
                             ? -1
@@ -304,9 +390,9 @@ utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, si
 }
 
 size_t
-utf8_string_index_of_character (const utf8_string_t *string, utf8_t character, size_t position) {
-  for (size_t i = position, n = string->len; i < n; i++) {
-    if (string->data[i] == character) {
+utf8_string_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos) {
+  for (size_t i = pos, n = string->len; i < n; i++) {
+    if (string->data[i] == c) {
       return i;
     }
   }
@@ -315,9 +401,9 @@ utf8_string_index_of_character (const utf8_string_t *string, utf8_t character, s
 }
 
 size_t
-utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position) {
-  for (size_t i = position, n = view.len; i < n; i++) {
-    if (view.data[i] == character) {
+utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos) {
+  for (size_t i = pos, n = view.len; i < n; i++) {
+    if (view.data[i] == c) {
       return i;
     }
   }
@@ -326,12 +412,12 @@ utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t chara
 }
 
 size_t
-utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t character, size_t position) {
-  if (position == (size_t) -1) position = string->len - 1;
-  else if (position >= string->len) return (size_t) -1;
+utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos) {
+  if (pos == (size_t) -1) pos = string->len - 1;
+  else if (pos >= string->len) return (size_t) -1;
 
-  for (size_t i = position; i >= 0; i--) {
-    if (string->data[i] == character) {
+  for (size_t i = pos; i >= 0; i--) {
+    if (string->data[i] == c) {
       return i;
     }
   }
@@ -340,12 +426,12 @@ utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t charact
 }
 
 size_t
-utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t character, size_t position) {
-  if (position == (size_t) -1) position = view.len - 1;
-  else if (position >= view.len) return (size_t) -1;
+utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos) {
+  if (pos == (size_t) -1) pos = view.len - 1;
+  else if (pos >= view.len) return (size_t) -1;
 
-  for (size_t i = position; i >= 0; i--) {
-    if (view.data[i] == character) {
+  for (size_t i = pos; i >= 0; i--) {
+    if (view.data[i] == c) {
       return i;
     }
   }
