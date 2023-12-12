@@ -262,7 +262,7 @@ utf8_string_insert (utf8_string_t *string, size_t pos, const utf8_string_t *othe
   err = utf8_string_reserve(string, inserted_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + other->len], &string->data[pos], string->len - pos + 1);
+  memmove(&string->data[pos + other->len], &string->data[pos], string->len - pos);
 
   memcpy(&string->data[pos], other->data, other->len);
 
@@ -282,7 +282,7 @@ utf8_string_insert_view (utf8_string_t *string, size_t pos, const utf8_string_vi
   err = utf8_string_reserve(string, inserted_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + other.len], &string->data[pos], string->len - pos + 1);
+  memmove(&string->data[pos + other.len], &string->data[pos], string->len - pos);
 
   memcpy(&string->data[pos], other.data, other.len);
 
@@ -302,7 +302,7 @@ utf8_string_insert_character (utf8_string_t *string, size_t pos, utf8_t c) {
   err = utf8_string_reserve(string, inserted_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + 1], &string->data[pos], string->len - pos + 1);
+  memmove(&string->data[pos + 1], &string->data[pos], string->len - pos);
 
   string->data[pos] = c;
 
@@ -324,7 +324,7 @@ utf8_string_insert_literal (utf8_string_t *string, size_t pos, const utf8_t *lit
   err = utf8_string_reserve(string, inserted_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + n], &string->data[pos], string->len - pos + 1);
+  memmove(&string->data[pos + n], &string->data[pos], string->len - pos);
 
   memcpy(&string->data[pos], literal, n);
 
@@ -345,7 +345,7 @@ utf8_string_replace (utf8_string_t *string, size_t pos, size_t len, const utf8_s
   err = utf8_string_reserve(string, replaced_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + replacement->len], &string->data[pos + len], string->len - pos - len + 1);
+  memmove(&string->data[pos + replacement->len], &string->data[pos + len], string->len - pos - len);
 
   memcpy(&string->data[pos], replacement->data, replacement->len);
 
@@ -366,7 +366,7 @@ utf8_string_replace_view (utf8_string_t *string, size_t pos, size_t len, const u
   err = utf8_string_reserve(string, replaced_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + replacement.len], &string->data[pos + len], string->len - pos - len + 1);
+  memmove(&string->data[pos + replacement.len], &string->data[pos + len], string->len - pos - len);
 
   memcpy(&string->data[pos], replacement.data, replacement.len);
 
@@ -386,7 +386,7 @@ utf8_string_replace_character (utf8_string_t *string, size_t pos, size_t len, ut
   err = utf8_string_reserve(string, replaced_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + 1], &string->data[pos + len], string->len - pos - len + 1);
+  memmove(&string->data[pos + 1], &string->data[pos + len], string->len - pos - len);
 
   string->data[pos] = c;
 
@@ -409,7 +409,7 @@ utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, cons
   err = utf8_string_reserve(string, replaced_len);
   if (err < 0) return err;
 
-  memmove(&string->data[pos + n], &string->data[pos + len], string->len - pos - len + 1);
+  memmove(&string->data[pos + n], &string->data[pos + len], string->len - pos - len);
 
   memcpy(&string->data[pos], literal, n);
 
@@ -425,7 +425,7 @@ utf8_string_erase (utf8_string_t *string, size_t pos, size_t len) {
   if (pos > string->len) return -1;
   if (pos + len > string->len) len = string->len - pos;
 
-  memmove(&string->data[pos], &string->data[pos + len], string->len - pos - len + 1);
+  memmove(&string->data[pos], &string->data[pos + len], string->len - pos - len);
 
   string->len -= len;
 
