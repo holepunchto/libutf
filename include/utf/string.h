@@ -101,6 +101,9 @@ int
 utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, const utf8_t *literal, size_t n);
 
 int
+utf8_string_erase (utf8_string_t *string, size_t pos, size_t len);
+
+int
 utf8_string_concat (const utf8_string_t *string, const utf8_string_t *other, utf8_string_t *result);
 
 int

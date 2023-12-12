@@ -30,7 +30,7 @@ utf8_string_reserve (utf8_string_t *string, size_t len) {
 
   if (cap == 0) cap = sizeof(utf8_string_t) - 1;
 
-  while (cap <= len) {
+  while (cap < len) {
     cap = cap * 2 + 1;
   }
 
@@ -106,8 +106,6 @@ utf8_string_append (utf8_string_t *string, const utf8_string_t *other) {
 
   string->len += other->len;
 
-  string->data[string->len] = 0;
-
   return 0;
 }
 
@@ -127,8 +125,6 @@ utf8_string_append_character (utf8_string_t *string, utf8_t c) {
 
   string->len += 1;
 
-  string->data[string->len] = 0;
-
   return 0;
 }
 
@@ -145,8 +141,6 @@ utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t
 
   string->len += n;
 
-  string->data[string->len] = 0;
-
   return 0;
 }
 
@@ -162,8 +156,6 @@ utf8_string_prepend (utf8_string_t *string, const utf8_string_t *other) {
   memcpy(string->data, other->data, other->len);
 
   string->len += other->len;
-
-  string->data[string->len] = 0;
 
   return 0;
 }
@@ -186,8 +178,6 @@ utf8_string_prepend_character (utf8_string_t *string, utf8_t c) {
 
   string->len += 1;
 
-  string->data[string->len] = 0;
-
   return 0;
 }
 
@@ -205,8 +195,6 @@ utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_
   memcpy(string->data, literal, n);
 
   string->len += n;
-
-  string->data[string->len] = 0;
 
   return 0;
 }
@@ -293,6 +281,20 @@ utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, cons
   memcpy(&string->data[pos], literal, n);
 
   string->len = replaced_len;
+
+  return 0;
+}
+
+int
+utf8_string_erase (utf8_string_t *string, size_t pos, size_t len) {
+  int err;
+
+  if (pos > string->len) return -1;
+  if (pos + len > string->len) len = string->len - pos;
+
+  memmove(&string->data[pos], &string->data[pos + len], string->len - pos - len + 1);
+
+  string->len -= len;
 
   return 0;
 }
