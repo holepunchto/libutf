@@ -252,6 +252,88 @@ utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_
 }
 
 inline int
+utf8_string_insert (utf8_string_t *string, size_t pos, const utf8_string_t *other) {
+  int err;
+
+  if (pos > string->len) return -1;
+
+  size_t inserted_len = string->len + other->len;
+
+  err = utf8_string_reserve(string, inserted_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + other->len], &string->data[pos], string->len - pos + 1);
+
+  memcpy(&string->data[pos], other->data, other->len);
+
+  string->len = inserted_len;
+
+  return 0;
+}
+
+inline int
+utf8_string_insert_view (utf8_string_t *string, size_t pos, const utf8_string_view_t other) {
+  int err;
+
+  if (pos > string->len) return -1;
+
+  size_t inserted_len = string->len + other.len;
+
+  err = utf8_string_reserve(string, inserted_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + other.len], &string->data[pos], string->len - pos + 1);
+
+  memcpy(&string->data[pos], other.data, other.len);
+
+  string->len = inserted_len;
+
+  return 0;
+}
+
+inline int
+utf8_string_insert_character (utf8_string_t *string, size_t pos, utf8_t c) {
+  int err;
+
+  if (pos > string->len) return -1;
+
+  size_t inserted_len = string->len + 1;
+
+  err = utf8_string_reserve(string, inserted_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + 1], &string->data[pos], string->len - pos + 1);
+
+  string->data[pos] = c;
+
+  string->len = inserted_len;
+
+  return 0;
+}
+
+inline int
+utf8_string_insert_literal (utf8_string_t *string, size_t pos, const utf8_t *literal, size_t n) {
+  int err;
+
+  if (pos > string->len) return -1;
+
+  if (n == (size_t) -1) n = strlen((const char *) literal);
+
+  size_t inserted_len = string->len + n;
+
+  err = utf8_string_reserve(string, inserted_len);
+  if (err < 0) return err;
+
+  memmove(&string->data[pos + n], &string->data[pos], string->len - pos + 1);
+
+  memcpy(&string->data[pos], literal, n);
+
+  string->len = inserted_len;
+
+  return 0;
+}
+
+inline int
 utf8_string_replace (utf8_string_t *string, size_t pos, size_t len, const utf8_string_t *replacement) {
   int err;
 
@@ -295,7 +377,6 @@ utf8_string_replace_view (utf8_string_t *string, size_t pos, size_t len, const u
 
 inline int
 utf8_string_replace_character (utf8_string_t *string, size_t pos, size_t len, utf8_t c) {
-
   int err;
 
   if (pos > string->len) return -1;

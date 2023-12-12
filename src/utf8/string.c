@@ -58,6 +58,18 @@ extern int
 utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t n);
 
 extern int
+utf8_string_insert (utf8_string_t *string, size_t pos, const utf8_string_t *other);
+
+extern int
+utf8_string_insert_view (utf8_string_t *string, size_t pos, const utf8_string_view_t other);
+
+extern int
+utf8_string_insert_character (utf8_string_t *string, size_t pos, utf8_t c);
+
+extern int
+utf8_string_insert_literal (utf8_string_t *string, size_t pos, const utf8_t *literal, size_t n);
+
+extern int
 utf8_string_replace (utf8_string_t *string, size_t pos, size_t len, const utf8_string_t *replacement);
 
 extern int
