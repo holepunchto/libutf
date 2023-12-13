@@ -724,7 +724,7 @@ utf8_string_last_index_of_character (const utf8_string_t *string, size_t pos, ut
   if (pos == (size_t) -1) pos = string->len - 1;
   else if (pos >= string->len) return (size_t) -1;
 
-  for (size_t i = pos; i != (size_t) -1; i--) {
+  for (size_t i = pos; i <= pos; i--) {
     if (string->data[i] == c) {
       return i;
     }
@@ -738,7 +738,7 @@ utf8_string_view_last_index_of_character (const utf8_string_view_t view, size_t 
   if (pos == (size_t) -1) pos = view.len - 1;
   else if (pos >= view.len) return (size_t) -1;
 
-  for (size_t i = pos; i != (size_t) -1; i--) {
+  for (size_t i = pos; i <= pos; i--) {
     if (view.data[i] == c) {
       return i;
     }
