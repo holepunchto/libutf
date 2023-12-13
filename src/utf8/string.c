@@ -133,13 +133,13 @@ extern int
 utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, size_t end, utf8_string_t *result);
 
 extern size_t
-utf8_string_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos);
+utf8_string_index_of_character (const utf8_string_t *string, size_t pos, utf8_t c);
 
 extern size_t
-utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos);
+utf8_string_view_index_of_character (const utf8_string_view_t view, size_t pos, utf8_t c);
 
 extern size_t
-utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos);
+utf8_string_last_index_of_character (const utf8_string_t *string, size_t pos, utf8_t c);
 
 extern size_t
-utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos);
+utf8_string_view_last_index_of_character (const utf8_string_view_t view, size_t pos, utf8_t c);

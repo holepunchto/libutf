@@ -697,7 +697,7 @@ utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, si
 }
 
 inline size_t
-utf8_string_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos) {
+utf8_string_index_of_character (const utf8_string_t *string, size_t pos, utf8_t c) {
   for (size_t i = pos, n = string->len; i < n; i++) {
     if (string->data[i] == c) {
       return i;
@@ -708,7 +708,7 @@ utf8_string_index_of_character (const utf8_string_t *string, utf8_t c, size_t po
 }
 
 inline size_t
-utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos) {
+utf8_string_view_index_of_character (const utf8_string_view_t view, size_t pos, utf8_t c) {
   for (size_t i = pos, n = view.len; i < n; i++) {
     if (view.data[i] == c) {
       return i;
@@ -719,7 +719,7 @@ utf8_string_view_index_of_character (const utf8_string_view_t view, utf8_t c, si
 }
 
 inline size_t
-utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t c, size_t pos) {
+utf8_string_last_index_of_character (const utf8_string_t *string, size_t pos, utf8_t c) {
   if (pos == (size_t) -1) pos = string->len - 1;
   else if (pos >= string->len) return (size_t) -1;
 
@@ -733,7 +733,7 @@ utf8_string_last_index_of_character (const utf8_string_t *string, utf8_t c, size
 }
 
 inline size_t
-utf8_string_view_last_index_of_character (const utf8_string_view_t view, utf8_t c, size_t pos) {
+utf8_string_view_last_index_of_character (const utf8_string_view_t view, size_t pos, utf8_t c) {
   if (pos == (size_t) -1) pos = view.len - 1;
   else if (pos >= view.len) return (size_t) -1;
 
