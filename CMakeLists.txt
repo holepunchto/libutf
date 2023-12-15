@@ -15,6 +15,8 @@ target_sources(
   utf
   INTERFACE
     include/utf.h
+    include/utf/endianness.h
+    include/utf/string.h
   PRIVATE
     src/endianness.c
     src/utf8/utf16-convert.c
