@@ -18,6 +18,9 @@ utf8_string_reserve (utf8_string_t *string, size_t len);
 extern int
 utf8_string_shrink_to_fit (utf8_string_t *string);
 
+extern utf8_string_view_t
+utf8_string_view (const utf8_string_t *string);
+
 extern void
 utf8_string_clear (utf8_string_t *string);
 

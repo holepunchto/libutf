@@ -85,6 +85,11 @@ utf8_string_shrink_to_fit (utf8_string_t *string) {
   return 0;
 }
 
+inline utf8_string_view_t
+utf8_string_view (const utf8_string_t *string) {
+  return utf8_string_view_init(string->data, string->len);
+}
+
 inline void
 utf8_string_clear (utf8_string_t *string) {
   string->len = 0;
