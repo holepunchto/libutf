@@ -24,12 +24,6 @@ foreach(test IN LISTS tests)
       utf_static
   )
 
-  target_include_directories(
-    ${name}
-    PRIVATE
-      $<TARGET_PROPERTY:utf,INTERFACE_INCLUDE_DIRECTORIES>
-  )
-
   add_test(
     NAME ${name}
     COMMAND ${name}
