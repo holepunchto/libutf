@@ -25,7 +25,7 @@ extern void
 utf8_string_clear (utf8_string_t *string);
 
 extern bool
-utf8_string_empty (utf8_string_t *string);
+utf8_string_empty (const utf8_string_t *string);
 
 extern bool
 utf8_string_view_empty (const utf8_string_view_t view);

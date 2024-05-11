@@ -24,7 +24,10 @@ typedef struct utf8_string_view_s utf8_string_view_t;
 struct utf8_string_s {
   utf8_t *data;
   size_t len;
-  size_t cap;
+  union {
+    size_t cap;
+    utf8_t buf[8];
+  };
 };
 
 struct utf8_string_view_s {
@@ -34,9 +37,8 @@ struct utf8_string_view_s {
 
 inline void
 utf8_string_init (utf8_string_t *string) {
+  string->data = string->buf;
   string->len = 0;
-  string->cap = 0;
-  string->data = NULL;
 }
 
 inline utf8_string_view_t
@@ -46,41 +48,57 @@ utf8_string_view_init (const utf8_t *data, size_t len) {
 
 inline void
 utf8_string_destroy (utf8_string_t *string) {
-  free(string->data);
+  if (string->data != string->buf) free(string->data);
 }
 
 inline int
 utf8_string_reserve (utf8_string_t *string, size_t len) {
-  size_t cap = string->cap;
+  size_t cap = string->data == string->buf ? sizeof(string->buf) : string->cap;
 
-  if (len < cap) return 0;
-
-  if (cap == 0) cap = sizeof(utf8_string_t) - 1;
+  if (len <= cap) return 0;
 
   while (cap < len) {
-    cap = cap * 2 + 1;
+    cap = cap * 2;
   }
 
-  void *data = realloc(string->data, cap);
+  utf8_t *data;
+
+  if (string->data == string->buf) {
+    data = (utf8_t *) malloc(cap);
+
+    memcpy(data, string->data, string->len);
+  } else {
+    data = (utf8_t *) realloc(string->data, cap);
+  }
 
   if (data == NULL) return -1;
 
-  string->cap = cap;
   string->data = data;
+  string->cap = cap;
 
   return 0;
 }
 
 inline int
 utf8_string_shrink_to_fit (utf8_string_t *string) {
-  size_t cap = string->len + 1;
+  if (string->data == string->buf) return 0;
 
-  void *data = realloc(string->data, cap);
+  size_t cap = string->len;
 
-  if (data == NULL) return -1;
+  if (cap <= sizeof(string->buf)) {
+    memcpy(string->buf, string->data, cap);
 
-  string->cap = cap;
-  string->data = data;
+    free(string->data);
+
+    string->data = string->buf;
+  } else {
+    utf8_t *data = (utf8_t *) realloc(string->data, cap);
+
+    if (data == NULL) return -1;
+
+    string->data = data;
+    string->cap = cap;
+  }
 
   return 0;
 }
@@ -96,7 +114,7 @@ utf8_string_clear (utf8_string_t *string) {
 }
 
 inline bool
-utf8_string_empty (utf8_string_t *string) {
+utf8_string_empty (const utf8_string_t *string) {
   return string->len == 0;
 }
 
