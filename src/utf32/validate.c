@@ -22,18 +22,18 @@
  * limitations under the License.
  */
 
-size_t
-utf16_length_from_utf8 (const utf8_t *data, size_t len) {
-  size_t counter = 0;
+bool
+utf32_validate (const utf32_t *data, size_t len) {
+  uint64_t pos = 0;
+  uint32_t word;
 
-  for (size_t i = 0; i < len; i++) {
-    if ((int8_t) data[i] > -65) {
-      counter++;
+  while (pos < len) {
+    word = data[pos];
+    if (word > 0x10ffff || (word >= 0xd800 && word <= 0xdfff)) {
+      return false;
     }
-    if (data[i] >= 240) {
-      counter++;
-    }
+    pos++;
   }
 
-  return counter;
+  return true;
 }

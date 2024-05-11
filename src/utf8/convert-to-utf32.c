@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
@@ -23,85 +22,88 @@
  * limitations under the License.
  */
 
-bool
-utf8_validate (const utf8_t *data, size_t len) {
-  uint64_t pos = 0;
-  uint8_t word;
+size_t
+utf8_convert_to_utf32 (const utf8_t *data, size_t len, utf32_t *result) {
+  size_t pos = 0;
+  utf32_t *start = result;
 
   while (pos < len) {
-    uint64_t next_pos = pos + 16;
-    if (next_pos <= len) {
+    if (pos + 16 <= len) {
       uint64_t v1;
       memcpy(&v1, data + pos, sizeof(uint64_t));
       uint64_t v2;
       memcpy(&v2, data + pos + sizeof(uint64_t), sizeof(uint64_t));
       uint64_t v = v1 | v2;
       if ((v & 0x8080808080808080) == 0) {
-        pos = next_pos;
+        size_t final_pos = pos + 16;
+        while (pos < final_pos) {
+          *result++ = data[pos];
+          pos++;
+        }
         continue;
       }
     }
-    word = data[pos];
-    while (word < 0b10000000) {
-      if (++pos == len) return true;
-      word = data[pos];
-    }
-    if ((word & 0b11100000) == 0b11000000) {
-      next_pos = pos + 2;
-      if (next_pos > len) {
-        return false;
+    uint8_t leading_byte = data[pos];
+    if (leading_byte < 0b10000000) {
+      *result++ = leading_byte;
+      pos++;
+    } else if ((leading_byte & 0b11100000) == 0b11000000) {
+      if (pos + 1 >= len) {
+        return 0;
       }
       if ((data[pos + 1] & 0b11000000) != 0b10000000) {
-        return false;
+        return 0;
       }
-      uint32_t code_point = ((word & 0b00011111) << 6) |
+      uint32_t code_point = ((leading_byte & 0b00011111) << 6) |
                             (data[pos + 1] & 0b00111111);
-      if ((code_point < 0x80) || (0x7ff < code_point)) {
-        return false;
+      if (code_point < 0x80 || 0x7ff < code_point) {
+        return 0;
       }
-    } else if ((word & 0b11110000) == 0b11100000) {
-      next_pos = pos + 3;
-      if (next_pos > len) {
-        return false;
+      *result++ = code_point;
+      pos += 2;
+    } else if ((leading_byte & 0b11110000) == 0b11100000) {
+      if (pos + 2 >= len) {
+        return 0;
       }
       if ((data[pos + 1] & 0b11000000) != 0b10000000) {
-        return false;
+        return 0;
       }
       if ((data[pos + 2] & 0b11000000) != 0b10000000) {
-        return false;
+        return 0;
       }
-      uint32_t code_point = ((word & 0b00001111) << 12) |
+      uint32_t code_point = ((leading_byte & 0b00001111) << 12) |
                             ((data[pos + 1] & 0b00111111) << 6) |
                             (data[pos + 2] & 0b00111111);
-      if ((code_point < 0x800) || (0xffff < code_point) || (0xd7ff < code_point && code_point < 0xe000)) {
-        return false;
+      if (code_point < 0x800 || 0xffff < code_point || (0xd7ff < code_point && code_point < 0xe000)) {
+        return 0;
       }
-    } else if ((word & 0b11111000) == 0b11110000) {
-      next_pos = pos + 4;
-      if (next_pos > len) {
-        return false;
+      *result++ = code_point;
+      pos += 3;
+    } else if ((leading_byte & 0b11111000) == 0b11110000) {
+      if (pos + 3 >= len) {
+        return 0;
       }
       if ((data[pos + 1] & 0b11000000) != 0b10000000) {
-        return false;
+        return 0;
       }
       if ((data[pos + 2] & 0b11000000) != 0b10000000) {
-        return false;
+        return 0;
       }
       if ((data[pos + 3] & 0b11000000) != 0b10000000) {
-        return false;
+        return 0;
       }
-      uint32_t code_point = ((word & 0b00000111) << 18) |
+      uint32_t code_point = ((leading_byte & 0b00000111) << 18) |
                             ((data[pos + 1] & 0b00111111) << 12) |
                             ((data[pos + 2] & 0b00111111) << 6) |
                             (data[pos + 3] & 0b00111111);
       if (code_point <= 0xffff || 0x10ffff < code_point) {
-        return false;
+        return 0;
       }
+      *result++ = code_point;
+      pos += 4;
     } else {
-      return false;
+      return 0;
     }
-    pos = next_pos;
   }
-
-  return true;
+  return result - start;
 }

@@ -1,10 +1,9 @@
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include <string.h>
 
 #include "../../include/utf.h"
-#include "../../include/utf/endianness.h"
+#include "../endianness.h"
 
 /**
  * Modified from https://github.com/simdutf/simdutf
@@ -44,7 +43,6 @@ utf16le_convert_to_utf8 (const utf16_t *data, size_t len, utf8_t *result) {
         continue;
       }
     }
-
     word = utf_is_be() ? utf_swap_uint16(data[pos]) : data[pos];
     if ((word & 0xff80) == 0) {
       *result++ = word;

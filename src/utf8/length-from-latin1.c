@@ -1,9 +1,6 @@
-#include <stdbool.h>
 #include <stddef.h>
-#include <stdint.h>
 
 #include "../../include/utf.h"
-#include "../../include/utf/endianness.h"
 
 /**
  * Modified from https://github.com/simdutf/simdutf
@@ -24,21 +21,11 @@
  */
 
 size_t
-utf8_length_from_utf16le (const utf16_t *data, size_t len) {
-  size_t counter = 0;
-  uint16_t word;
+utf8_length_from_latin1 (const latin1_t *data, size_t len) {
+  size_t counter = len;
 
   for (size_t i = 0; i < len; i++) {
-    word = utf_is_be() ? utf_swap_uint16(data[i]) : data[i];
-    if (word <= 0x7f) {
-      counter++;
-    } else if (word <= 0x7ff) {
-      counter += 2;
-    } else if ((word <= 0xd7ff) || (word >= 0xe000)) {
-      counter += 3;
-    } else {
-      counter += 2;
-    }
+    counter += data[i] >> 7;
   }
 
   return counter;

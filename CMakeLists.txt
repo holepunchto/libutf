@@ -15,17 +15,21 @@ target_sources(
   utf
   INTERFACE
     include/utf.h
-    include/utf/endianness.h
     include/utf/string.h
   PRIVATE
     src/endianness.c
-    src/utf8/utf16-convert.c
-    src/utf8/utf16-length.c
+    src/endianness.h
+    src/utf8/convert-to-utf16.c
+    src/utf8/convert-to-utf32.c
+    src/utf8/length-from-utf16.c
     src/utf8/validate.c
     src/utf8/string.c
-    src/utf16/utf8-convert.c
-    src/utf16/utf8-length.c
+    src/utf16/convert-to-utf8.c
+    src/utf16/length-from-utf8.c
     src/utf16/validate.c
+    src/utf32/convert-to-utf8.c
+    src/utf32/length-from-utf8.c
+    src/utf32/validate.c
 )
 
 target_include_directories(
@@ -72,5 +76,6 @@ install(DIRECTORY include/utf DESTINATION include)
 
 if(PROJECT_IS_TOP_LEVEL)
   enable_testing()
+
   add_subdirectory(test)
 endif()

@@ -1,9 +1,7 @@
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
 #include "../../include/utf.h"
-#include "../endianness.h"
 
 /**
  * Modified from https://github.com/simdutf/simdutf
@@ -23,31 +21,15 @@
  * limitations under the License.
  */
 
-bool
-utf16le_validate (const utf16_t *data, size_t len) {
-  uint64_t pos = 0;
-  uint16_t word, diff;
+size_t
+utf32_length_from_utf8 (const utf8_t *data, size_t len) {
+  size_t counter = 0;
 
-  while (pos < len) {
-    word = utf_is_be() ? utf_swap_uint16(data[pos]) : data[pos];
-    if ((word & 0xf800) == 0xd800) {
-      if (pos + 1 >= len) {
-        return false;
-      }
-      diff = word - 0xd800;
-      if (diff > 0x3ff) {
-        return false;
-      }
-      word = utf_is_be() ? utf_swap_uint16(data[pos + 1]) : data[pos + 1];
-      diff = word - 0xdc00;
-      if (diff > 0x3ff) {
-        return false;
-      }
-      pos += 2;
-    } else {
-      pos++;
+  for (size_t i = 0; i < len; i++) {
+    if ((int8_t) data[i] > -65) {
+      counter++;
     }
   }
 
-  return true;
+  return counter;
 }

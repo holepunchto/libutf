@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 
@@ -23,31 +22,23 @@
  * limitations under the License.
  */
 
-bool
-utf16le_validate (const utf16_t *data, size_t len) {
-  uint64_t pos = 0;
-  uint16_t word, diff;
+size_t
+utf8_length_from_utf16le (const utf16_t *data, size_t len) {
+  size_t counter = 0;
+  uint16_t word;
 
-  while (pos < len) {
-    word = utf_is_be() ? utf_swap_uint16(data[pos]) : data[pos];
-    if ((word & 0xf800) == 0xd800) {
-      if (pos + 1 >= len) {
-        return false;
-      }
-      diff = word - 0xd800;
-      if (diff > 0x3ff) {
-        return false;
-      }
-      word = utf_is_be() ? utf_swap_uint16(data[pos + 1]) : data[pos + 1];
-      diff = word - 0xdc00;
-      if (diff > 0x3ff) {
-        return false;
-      }
-      pos += 2;
+  for (size_t i = 0; i < len; i++) {
+    word = utf_is_be() ? utf_swap_uint16(data[i]) : data[i];
+    if (word <= 0x7f) {
+      counter++;
+    } else if (word <= 0x7ff) {
+      counter += 2;
+    } else if ((word <= 0xd7ff) || (word >= 0xe000)) {
+      counter += 3;
     } else {
-      pos++;
+      counter += 2;
     }
   }
 
-  return true;
+  return counter;
 }

@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../include/utf/endianness.h"
+#include "endianness.h"
 
 extern utf_endianness_t
 utf_endianness (void);
