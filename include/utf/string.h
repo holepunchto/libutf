@@ -57,9 +57,17 @@ utf8_string_reserve (utf8_string_t *string, size_t len) {
 
   if (len <= cap) return 0;
 
-  while (cap < len) {
-    cap = cap * 2;
-  }
+  // https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+  len--;
+  len |= len >> 1;
+  len |= len >> 2;
+  len |= len >> 4;
+  len |= len >> 8;
+  len |= len >> 16;
+  if (sizeof(len) == 8) len |= len >> 32;
+  len++;
+
+  cap = len;
 
   utf8_t *data;
 
