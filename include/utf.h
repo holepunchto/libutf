@@ -13,6 +13,7 @@ typedef uint_least8_t utf8_t;
 typedef uint_least16_t utf16_t;
 typedef uint_least32_t utf32_t;
 typedef uint_least8_t latin1_t;
+typedef uint_least8_t ascii_t;
 
 /**
  * UTF-8
@@ -110,6 +111,13 @@ latin1_convert_to_utf16le (const latin1_t *data, size_t len, utf16_t *result);
 
 size_t
 latin1_convert_to_utf32 (const latin1_t *data, size_t len, utf32_t *result);
+
+/**
+ * ASCII
+ */
+
+bool
+ascii_validate (const ascii_t *data, size_t len);
 
 /**
  * Strings

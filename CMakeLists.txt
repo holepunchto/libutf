@@ -19,6 +19,7 @@ target_sources(
   PRIVATE
     src/endianness.c
     src/endianness.h
+    src/ascii/validate.c
     src/utf8/convert-to-latin1.c
     src/utf8/convert-to-utf16.c
     src/utf8/convert-to-utf32.c
