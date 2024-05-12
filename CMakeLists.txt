@@ -19,16 +19,27 @@ target_sources(
   PRIVATE
     src/endianness.c
     src/endianness.h
+    src/utf8/convert-to-latin1.c
     src/utf8/convert-to-utf16.c
     src/utf8/convert-to-utf32.c
+    src/utf8/length-from-latin1.c
     src/utf8/length-from-utf16.c
-    src/utf8/validate.c
+    src/utf8/length-from-utf32.c
     src/utf8/string.c
+    src/utf8/validate.c
+    src/utf16/convert-to-latin1.c
     src/utf16/convert-to-utf8.c
+    src/utf16/convert-to-utf32.c
+    src/utf16/length-from-latin1.c
     src/utf16/length-from-utf8.c
+    src/utf16/length-from-utf32.c
     src/utf16/validate.c
+    src/utf32/convert-to-latin1.c
     src/utf32/convert-to-utf8.c
+    src/utf32/convert-to-utf16.c
+    src/utf32/length-from-latin1.c
     src/utf32/length-from-utf8.c
+    src/utf32/length-from-utf16.c
     src/utf32/validate.c
 )
 

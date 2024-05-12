@@ -1,4 +1,6 @@
 #include <stddef.h>
+#include <stdint.h>
+#include <string.h>
 
 #include "../../include/utf.h"
 
@@ -21,15 +23,12 @@
  */
 
 size_t
-utf8_length_from_utf32 (const utf32_t *data, size_t len) {
-  size_t counter = 0;
+latin1_convert_to_utf32 (const latin1_t *data, size_t len, utf32_t *result) {
+  utf32_t *start = result;
 
   for (size_t i = 0; i < len; i++) {
-    counter++;
-    counter += data[i] > 0x7f;
-    counter += data[i] > 0x7ff;
-    counter += data[i] > 0xffff;
+    *result++ = data[i];
   }
 
-  return counter;
+  return result - start;
 }

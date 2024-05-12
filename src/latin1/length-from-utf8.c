@@ -22,5 +22,13 @@
 
 size_t
 latin1_length_from_utf8 (const utf8_t *data, size_t len) {
-  return utf32_length_from_utf8(data, len);
+  size_t counter = 0;
+
+  for (size_t i = 0; i < len; i++) {
+    if ((int8_t) data[i] > -65) {
+      counter++;
+    }
+  }
+
+  return counter;
 }

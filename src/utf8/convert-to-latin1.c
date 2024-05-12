@@ -23,9 +23,9 @@
  */
 
 size_t
-utf8_convert_to_utf32 (const utf8_t *data, size_t len, utf32_t *result) {
+utf8_convert_to_latin1 (const utf8_t *data, size_t len, latin1_t *result) {
   size_t pos = 0;
-  utf32_t *start = result;
+  latin1_t *start = result;
 
   while (pos < len) {
     if (pos + 16 <= len) {
@@ -56,51 +56,11 @@ utf8_convert_to_utf32 (const utf8_t *data, size_t len, utf32_t *result) {
       }
       uint32_t code_point = ((leading_byte & 0b00011111) << 6) |
                             (data[pos + 1] & 0b00111111);
-      if (code_point < 0x80 || 0x7ff < code_point) {
+      if (code_point < 0x80 || 0xff < code_point) {
         return 0;
       }
       *result++ = code_point;
       pos += 2;
-    } else if ((leading_byte & 0b11110000) == 0b11100000) {
-      if (pos + 2 >= len) {
-        return 0;
-      }
-      if ((data[pos + 1] & 0b11000000) != 0b10000000) {
-        return 0;
-      }
-      if ((data[pos + 2] & 0b11000000) != 0b10000000) {
-        return 0;
-      }
-      uint32_t code_point = ((leading_byte & 0b00001111) << 12) |
-                            ((data[pos + 1] & 0b00111111) << 6) |
-                            (data[pos + 2] & 0b00111111);
-      if (code_point < 0x800 || 0xffff < code_point || (0xd7ff < code_point && code_point < 0xe000)) {
-        return 0;
-      }
-      *result++ = code_point;
-      pos += 3;
-    } else if ((leading_byte & 0b11111000) == 0b11110000) {
-      if (pos + 3 >= len) {
-        return 0;
-      }
-      if ((data[pos + 1] & 0b11000000) != 0b10000000) {
-        return 0;
-      }
-      if ((data[pos + 2] & 0b11000000) != 0b10000000) {
-        return 0;
-      }
-      if ((data[pos + 3] & 0b11000000) != 0b10000000) {
-        return 0;
-      }
-      uint32_t code_point = ((leading_byte & 0b00000111) << 18) |
-                            ((data[pos + 1] & 0b00111111) << 12) |
-                            ((data[pos + 2] & 0b00111111) << 6) |
-                            (data[pos + 3] & 0b00111111);
-      if (code_point <= 0xffff || 0x10ffff < code_point) {
-        return 0;
-      }
-      *result++ = code_point;
-      pos += 4;
     } else {
       return 0;
     }

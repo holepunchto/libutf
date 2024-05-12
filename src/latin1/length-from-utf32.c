@@ -21,15 +21,6 @@
  */
 
 size_t
-utf8_length_from_utf32 (const utf32_t *data, size_t len) {
-  size_t counter = 0;
-
-  for (size_t i = 0; i < len; i++) {
-    counter++;
-    counter += data[i] > 0x7f;
-    counter += data[i] > 0x7ff;
-    counter += data[i] > 0xffff;
-  }
-
-  return counter;
+latin1_length_from_utf32 (const utf32_t *data, size_t len) {
+  return len;
 }
