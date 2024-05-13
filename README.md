@@ -1,6 +1,6 @@
 # libutf
 
-Small library for working with Unicode in C.
+Small library for working with Unicode in C. Based on <https://github.com/simdutf/simdutf>, but without the `libc++` requirement.
 
 ## API
 
