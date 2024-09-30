@@ -43,7 +43,8 @@ utf8_string_init (utf8_string_t *string) {
 
 inline utf8_string_view_t
 utf8_string_view_init (const utf8_t *data, size_t len) {
-  return (utf8_string_view_t){data, len};
+  utf8_string_view_t view = {data, len};
+  return view;
 }
 
 inline void
