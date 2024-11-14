@@ -9,11 +9,11 @@ extern "C" {
 #include <stddef.h>
 #include <stdint.h>
 
-typedef uint_least8_t utf8_t;
+typedef unsigned char utf8_t;
 typedef uint_least16_t utf16_t;
 typedef uint_least32_t utf32_t;
-typedef uint_least8_t latin1_t;
-typedef uint_least8_t ascii_t;
+typedef unsigned char latin1_t;
+typedef unsigned char ascii_t;
 
 /**
  * UTF-8
