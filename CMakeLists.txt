@@ -20,6 +20,12 @@ target_sources(
     src/endianness.c
     src/endianness.h
     src/ascii/validate.c
+    src/latin1/convert-to-utf8.c
+    src/latin1/convert-to-utf16.c
+    src/latin1/convert-to-utf32.c
+    src/latin1/length-from-utf8.c
+    src/latin1/length-from-utf16.c
+    src/latin1/length-from-utf32.c
     src/utf8/convert-to-latin1.c
     src/utf8/convert-to-utf16.c
     src/utf8/convert-to-utf32.c
