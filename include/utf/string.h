@@ -453,8 +453,6 @@ utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, cons
 
 inline int
 utf8_string_erase (utf8_string_t *string, size_t pos, size_t len) {
-  int err;
-
   if (pos > string->len) return -1;
   if (pos + len > string->len) len = string->len - pos;
 
