@@ -8,6 +8,7 @@ extern "C" {
 #include <assert.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -65,7 +66,9 @@ utf8_string_reserve (utf8_string_t *string, size_t len) {
   len |= len >> 4;
   len |= len >> 8;
   len |= len >> 16;
-  if (sizeof(len) == 8) len |= len >> 32;
+#if SIZE_MAX == UINT64_MAX
+  len |= len >> 32;
+#endif
   len++;
 
   cap = len;
