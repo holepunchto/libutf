@@ -123,7 +123,7 @@ ascii_validate (const ascii_t *data, size_t len);
  * Strings
  */
 
-#include <utf/string.h>
+#include "utf/string.h"
 
 #ifdef __cplusplus
 }
