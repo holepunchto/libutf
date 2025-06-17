@@ -10,5 +10,8 @@
   "bugs": {
     "url": "https://github.com/holepunchto/libutf/issues"
   },
-  "homepage": "https://github.com/holepunchto/libutf#readme"
+  "homepage": "https://github.com/holepunchto/libutf#readme",
+  "devDependencies": {
+    "cmake-harden": "^1.1.0"
+  }
 }

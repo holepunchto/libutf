@@ -33,5 +33,5 @@ latin1_convert_to_utf16le(const latin1_t *data, size_t len, utf16_t *result) {
     pos++;
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }

@@ -36,5 +36,5 @@ utf32_convert_to_latin1(const utf32_t *data, size_t len, latin1_t *result) {
 
   if (overflow & 0xffffff00) return 0;
 
-  return result - start;
+  return (size_t) (result - start);
 }

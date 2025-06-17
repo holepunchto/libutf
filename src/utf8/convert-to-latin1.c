@@ -54,17 +54,17 @@ utf8_convert_to_latin1(const utf8_t *data, size_t len, latin1_t *result) {
       if ((data[pos + 1] & 0b11000000) != 0b10000000) {
         return 0;
       }
-      uint32_t code_point = ((leading_byte & 0b00011111) << 6) |
-                            (data[pos + 1] & 0b00111111);
-      if (code_point < 0x80 || 0xff < code_point) {
+      uint32_t code_point = (uint32_t) (((leading_byte & 0b00011111) << 6) |
+                                        (data[pos + 1] & 0b00111111));
+      if (code_point < 0x80 || code_point > 0xff) {
         return 0;
       }
-      *result++ = code_point;
+      *result++ = (uint8_t) code_point;
       pos += 2;
     } else {
       return 0;
     }
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }

@@ -1,8 +1,12 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.31)
+
+find_package(cmake-harden REQUIRED PATHS node_modules/cmake-harden)
 
 project(utf C)
 
 add_library(utf OBJECT)
+
+harden(utf)
 
 set_target_properties(
   utf

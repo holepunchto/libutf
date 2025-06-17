@@ -54,8 +54,8 @@ utf8_validate(const utf8_t *data, size_t len) {
       if ((data[pos + 1] & 0b11000000) != 0b10000000) {
         return false;
       }
-      uint32_t code_point = ((word & 0b00011111) << 6) |
-                            (data[pos + 1] & 0b00111111);
+      uint32_t code_point = (uint32_t) (((word & 0b00011111) << 6) |
+                                        (data[pos + 1] & 0b00111111));
       if ((code_point < 0x80) || (0x7ff < code_point)) {
         return false;
       }
@@ -70,9 +70,9 @@ utf8_validate(const utf8_t *data, size_t len) {
       if ((data[pos + 2] & 0b11000000) != 0b10000000) {
         return false;
       }
-      uint32_t code_point = ((word & 0b00001111) << 12) |
-                            ((data[pos + 1] & 0b00111111) << 6) |
-                            (data[pos + 2] & 0b00111111);
+      uint32_t code_point = (uint32_t) (((word & 0b00001111) << 12) |
+                                        ((data[pos + 1] & 0b00111111) << 6) |
+                                        (data[pos + 2] & 0b00111111));
       if ((code_point < 0x800) || (0xffff < code_point) || (0xd7ff < code_point && code_point < 0xe000)) {
         return false;
       }
@@ -90,10 +90,10 @@ utf8_validate(const utf8_t *data, size_t len) {
       if ((data[pos + 3] & 0b11000000) != 0b10000000) {
         return false;
       }
-      uint32_t code_point = ((word & 0b00000111) << 18) |
-                            ((data[pos + 1] & 0b00111111) << 12) |
-                            ((data[pos + 2] & 0b00111111) << 6) |
-                            (data[pos + 3] & 0b00111111);
+      uint32_t code_point = (uint32_t) (((word & 0b00000111) << 18) |
+                                        ((data[pos + 1] & 0b00111111) << 12) |
+                                        ((data[pos + 2] & 0b00111111) << 6) |
+                                        (data[pos + 3] & 0b00111111));
       if (code_point <= 0xffff || 0x10ffff < code_point) {
         return false;
       }

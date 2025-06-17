@@ -42,7 +42,7 @@ utf16le_convert_to_utf32(const utf16_t *data, size_t len, utf32_t *result) {
         return 0;
       }
       word = utf_is_be() ? utf_swap_uint16(data[pos + 1]) : data[pos + 1];
-      uint32_t value = (diff << 10) + (word - 0xdc00) + 0x10000;
+      uint32_t value = (uint32_t) ((diff << 10) + (word - 0xdc00) + 0x10000);
       diff = word - 0xdc00;
       if (diff > 0x3ff) {
         return 0;
@@ -52,5 +52,5 @@ utf16le_convert_to_utf32(const utf16_t *data, size_t len, utf32_t *result) {
     }
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }

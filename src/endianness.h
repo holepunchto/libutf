@@ -35,8 +35,8 @@ utf_is_be(void) {
 
 inline uint16_t
 utf_swap_uint16(uint16_t n) {
-  return ((n & 0x00ff) << 8) |
-         ((n & 0xff00) >> 8);
+  return (uint16_t) (((n & 0x00ff) << 8) |
+                     ((n & 0xff00) >> 8));
 }
 
 inline uint32_t
