@@ -18,12 +18,6 @@ foreach(test IN LISTS tests)
 
   add_executable(${name} ${test}.c)
 
-  set_target_properties(
-    ${name}
-    PROPERTIES
-    C_STANDARD 99
-  )
-
   target_link_libraries(
     ${name}
     PRIVATE
