@@ -54,5 +54,5 @@ latin1_convert_to_utf8(const latin1_t *data, size_t len, utf8_t *result) {
     }
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }

@@ -49,8 +49,8 @@ utf8_convert_to_utf16le(const utf8_t *data, size_t len, utf16_t *result) {
       if (pos + 1 >= len) {
         break;
       }
-      uint16_t code_point = ((leading_byte & 0b00011111) << 6) |
-                            (data[pos + 1] & 0b00111111);
+      uint16_t code_point = (uint16_t) (((leading_byte & 0b00011111) << 6) |
+                                        (data[pos + 1] & 0b00111111));
       if (utf_is_be()) {
         code_point = utf_swap_uint16(code_point);
       }
@@ -60,9 +60,9 @@ utf8_convert_to_utf16le(const utf8_t *data, size_t len, utf16_t *result) {
       if (pos + 2 >= len) {
         break;
       }
-      uint16_t code_point = ((leading_byte & 0b00001111) << 12) |
-                            ((data[pos + 1] & 0b00111111) << 6) |
-                            (data[pos + 2] & 0b00111111);
+      uint16_t code_point = (uint16_t) (((leading_byte & 0b00001111) << 12) |
+                                        ((data[pos + 1] & 0b00111111) << 6) |
+                                        (data[pos + 2] & 0b00111111));
       if (utf_is_be()) {
         code_point = utf_swap_uint16(code_point);
       }
@@ -72,13 +72,13 @@ utf8_convert_to_utf16le(const utf8_t *data, size_t len, utf16_t *result) {
       if (pos + 3 >= len) {
         break;
       }
-      uint32_t code_point = ((leading_byte & 0b00000111) << 18) |
-                            ((data[pos + 1] & 0b00111111) << 12) |
-                            ((data[pos + 2] & 0b00111111) << 6) |
-                            (data[pos + 3] & 0b00111111);
+      uint32_t code_point = (uint32_t) (((leading_byte & 0b00000111) << 18) |
+                                        ((data[pos + 1] & 0b00111111) << 12) |
+                                        ((data[pos + 2] & 0b00111111) << 6) |
+                                        (data[pos + 3] & 0b00111111));
       code_point -= 0x10000;
-      uint16_t high_surrogate = 0xd800 + (code_point >> 10);
-      uint16_t low_surrogate = 0xdc00 + (code_point & 0x3ff);
+      uint16_t high_surrogate = (uint16_t) (0xd800 + (code_point >> 10));
+      uint16_t low_surrogate = (uint16_t) (0xdc00 + (code_point & 0x3ff));
       if (utf_is_be()) {
         high_surrogate = utf_swap_uint16(high_surrogate);
         low_surrogate = utf_swap_uint16(low_surrogate);
@@ -91,5 +91,5 @@ utf8_convert_to_utf16le(const utf8_t *data, size_t len, utf16_t *result) {
     }
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }

@@ -34,14 +34,14 @@ utf32_convert_to_utf16le(const utf32_t *data, size_t len, utf16_t *result) {
       if (word >= 0xd800 && word <= 0xdfff) {
         return 0;
       }
-      *result++ = utf_is_be() ? utf_swap_uint16(data[pos]) : data[pos];
+      *result++ = utf_is_be() ? utf_swap_uint16((uint16_t) word) : (uint16_t) word;
     } else {
       if (word > 0x10ffff) {
         return 0;
       }
       word -= 0x10000;
-      uint16_t high_surrogate = 0xd800 + (word >> 10);
-      uint16_t low_surrogate = 0xdc00 + (word & 0x3ff);
+      uint16_t high_surrogate = (uint16_t) (0xd800 + (word >> 10));
+      uint16_t low_surrogate = (uint16_t) (0xdc00 + (word & 0x3ff));
       if (utf_is_be()) {
         high_surrogate = utf_swap_uint16(high_surrogate);
         low_surrogate = utf_swap_uint16(low_surrogate);
@@ -52,5 +52,5 @@ utf32_convert_to_utf16le(const utf32_t *data, size_t len, utf16_t *result) {
     pos++;
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }

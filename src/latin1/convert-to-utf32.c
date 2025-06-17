@@ -30,5 +30,5 @@ latin1_convert_to_utf32(const latin1_t *data, size_t len, utf32_t *result) {
     *result++ = data[i];
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }
