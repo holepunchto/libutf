@@ -45,24 +45,24 @@ utf32_convert_to_utf8(const utf32_t *data, size_t len, utf8_t *result) {
       pos++;
     } else if ((word & 0xfffff800) == 0) {
       *result++ = (uint8_t) (word >> 6) | 0b11000000;
-      *result++ = (uint8_t) (word & 0b111111) | 0b10000000;
+      *result++ = (word & 0b111111) | 0b10000000;
       pos++;
     } else if ((word & 0xffff0000) == 0) {
       if (word >= 0xd800 && word <= 0xdfff) {
         return 0;
       }
       *result++ = (uint8_t) (word >> 12) | 0b11100000;
-      *result++ = (uint8_t) ((word >> 6) & 0b111111) | 0b10000000;
-      *result++ = (uint8_t) (word & 0b111111) | 0b10000000;
+      *result++ = ((word >> 6) & 0b111111) | 0b10000000;
+      *result++ = (word & 0b111111) | 0b10000000;
       pos++;
     } else {
       if (word > 0x10ffff) {
         return 0;
       }
       *result++ = (uint8_t) (word >> 18) | 0b11110000;
-      *result++ = (uint8_t) ((word >> 12) & 0b111111) | 0b10000000;
-      *result++ = (uint8_t) ((word >> 6) & 0b111111) | 0b10000000;
-      *result++ = (uint8_t) (word & 0b111111) | 0b10000000;
+      *result++ = ((word >> 12) & 0b111111) | 0b10000000;
+      *result++ = ((word >> 6) & 0b111111) | 0b10000000;
+      *result++ = (word & 0b111111) | 0b10000000;
       pos++;
     }
   }
