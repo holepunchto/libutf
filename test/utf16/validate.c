@@ -8,7 +8,7 @@
   }
 
 int
-main () {
+main() {
   // Single ASCII character, 'a'
   test_validate("\x61\x00", 1);
 

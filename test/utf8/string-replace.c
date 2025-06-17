@@ -5,7 +5,7 @@
 #include "../../include/utf/string.h"
 
 int
-main () {
+main() {
   int e;
 
   utf8_string_t string;

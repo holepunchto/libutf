@@ -24,7 +24,7 @@
  */
 
 bool
-utf16le_validate (const utf16_t *data, size_t len) {
+utf16le_validate(const utf16_t *data, size_t len) {
   uint64_t pos = 0;
   uint16_t word, diff;
 

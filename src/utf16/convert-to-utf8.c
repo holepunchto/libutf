@@ -24,7 +24,7 @@
  */
 
 size_t
-utf16le_convert_to_utf8 (const utf16_t *data, size_t len, utf8_t *result) {
+utf16le_convert_to_utf8(const utf16_t *data, size_t len, utf8_t *result) {
   size_t pos = 0;
   uint16_t word, diff;
   utf8_t *start = result;
@@ -37,7 +37,7 @@ utf16le_convert_to_utf8 (const utf16_t *data, size_t len, utf8_t *result) {
       if ((v & 0xff80ff80ff80ff80) == 0) {
         size_t final_pos = pos + 4;
         while (pos < final_pos) {
-          *result++ = utf_is_be() ? utf_swap_uint16(data[pos]) : data[pos];
+          *result++ = (utf8_t) (utf_is_be() ? utf_swap_uint16(data[pos]) : data[pos]);
           pos++;
         }
         continue;
@@ -45,11 +45,11 @@ utf16le_convert_to_utf8 (const utf16_t *data, size_t len, utf8_t *result) {
     }
     word = utf_is_be() ? utf_swap_uint16(data[pos]) : data[pos];
     if ((word & 0xff80) == 0) {
-      *result++ = word;
+      *result++ = (uint8_t) word;
       pos++;
     } else if ((word & 0xf800) == 0) {
-      *result++ = (word >> 6) | 0b11000000;
-      *result++ = (word & 0b111111) | 0b10000000;
+      *result++ = (utf8_t) (word >> 6) | 0b11000000;
+      *result++ = (utf8_t) (word & 0b111111) | 0b10000000;
       pos++;
     } else if ((word & 0xf800) != 0xd800) {
       *result++ = (word >> 12) | 0b11100000;
@@ -62,8 +62,8 @@ utf16le_convert_to_utf8 (const utf16_t *data, size_t len, utf8_t *result) {
         return 0;
       }
       word = utf_is_be() ? utf_swap_uint16(data[pos + 1]) : data[pos + 1];
-      uint32_t value = (diff << 10) + (word - 0xdc00) + 0x10000;
-      *result++ = (value >> 18) | 0b11110000;
+      uint32_t value = (utf8_t) ((diff << 10) + (word - 0xdc00) + 0x10000);
+      *result++ = (utf8_t) (value >> 18) | 0b11110000;
       *result++ = ((value >> 12) & 0b111111) | 0b10000000;
       *result++ = ((value >> 6) & 0b111111) | 0b10000000;
       *result++ = (value & 0b111111) | 0b10000000;
@@ -71,5 +71,5 @@ utf16le_convert_to_utf8 (const utf16_t *data, size_t len, utf8_t *result) {
     }
   }
 
-  return result - start;
+  return (size_t) (result - start);
 }

@@ -8,7 +8,7 @@
   }
 
 int
-main () {
+main() {
   test_validate("\x80", 1);                     // The byte is 10000000 in binary. The first bit suggests it's a continuation byte, but there's no start byte.
   test_validate("\xc3", 1);                     // This byte indicates the start of a 2-byte sequence, but it's missing the second byte.
   test_validate("\xc0\x80", 2);                 // Overlong encoding of NULL character, which should be 0x00 in UTF-8

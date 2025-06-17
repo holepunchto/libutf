@@ -8,7 +8,7 @@
   }
 
 int
-main () {
+main() {
   test_validate("a", 1);                                                 // Single ASCII character
   test_validate("Hello, World!", 13);                                    // ASCII characters
   test_validate("\xc3\xa9", 2);                                          // Single 2-byte UTF-8 character

@@ -24,7 +24,7 @@
  */
 
 bool
-ascii_validate (const ascii_t *data, size_t len) {
+ascii_validate(const ascii_t *data, size_t len) {
   uint64_t pos = 0;
 
   for (; pos + 16 <= len; pos += 16) {

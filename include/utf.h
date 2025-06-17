@@ -20,104 +20,104 @@ typedef unsigned char ascii_t;
  */
 
 bool
-utf8_validate (const utf8_t *data, size_t len);
+utf8_validate(const utf8_t *data, size_t len);
 
 size_t
-utf8_length_from_utf16le (const utf16_t *data, size_t len);
+utf8_length_from_utf16le(const utf16_t *data, size_t len);
 
 size_t
-utf8_length_from_utf32 (const utf32_t *data, size_t len);
+utf8_length_from_utf32(const utf32_t *data, size_t len);
 
 size_t
-utf8_length_from_latin1 (const latin1_t *data, size_t len);
+utf8_length_from_latin1(const latin1_t *data, size_t len);
 
 size_t
-utf8_convert_to_utf16le (const utf8_t *data, size_t len, utf16_t *result);
+utf8_convert_to_utf16le(const utf8_t *data, size_t len, utf16_t *result);
 
 size_t
-utf8_convert_to_utf32 (const utf8_t *data, size_t len, utf32_t *result);
+utf8_convert_to_utf32(const utf8_t *data, size_t len, utf32_t *result);
 
 size_t
-utf8_convert_to_latin1 (const utf8_t *data, size_t len, latin1_t *result);
+utf8_convert_to_latin1(const utf8_t *data, size_t len, latin1_t *result);
 
 /**
  * UTF-16
  */
 
 bool
-utf16le_validate (const utf16_t *data, size_t len);
+utf16le_validate(const utf16_t *data, size_t len);
 
 size_t
-utf16_length_from_utf8 (const utf8_t *data, size_t len);
+utf16_length_from_utf8(const utf8_t *data, size_t len);
 
 size_t
-utf16_length_from_utf32 (const utf32_t *data, size_t len);
+utf16_length_from_utf32(const utf32_t *data, size_t len);
 
 size_t
-utf16_length_from_latin1 (const latin1_t *data, size_t len);
+utf16_length_from_latin1(const latin1_t *data, size_t len);
 
 size_t
-utf16le_convert_to_utf8 (const utf16_t *data, size_t len, utf8_t *result);
+utf16le_convert_to_utf8(const utf16_t *data, size_t len, utf8_t *result);
 
 size_t
-utf16le_convert_to_utf32 (const utf16_t *data, size_t len, utf32_t *result);
+utf16le_convert_to_utf32(const utf16_t *data, size_t len, utf32_t *result);
 
 size_t
-utf16le_convert_to_latin1 (const utf16_t *data, size_t len, latin1_t *result);
+utf16le_convert_to_latin1(const utf16_t *data, size_t len, latin1_t *result);
 
 /**
  * UTF-32
  */
 
 bool
-utf32_validate (const utf32_t *data, size_t len);
+utf32_validate(const utf32_t *data, size_t len);
 
 size_t
-utf32_length_from_utf8 (const utf8_t *data, size_t len);
+utf32_length_from_utf8(const utf8_t *data, size_t len);
 
 size_t
-utf32_length_from_utf16le (const utf16_t *data, size_t len);
+utf32_length_from_utf16le(const utf16_t *data, size_t len);
 
 size_t
-utf32_length_from_latin1 (const latin1_t *data, size_t len);
+utf32_length_from_latin1(const latin1_t *data, size_t len);
 
 size_t
-utf32_convert_to_utf8 (const utf32_t *data, size_t len, utf8_t *result);
+utf32_convert_to_utf8(const utf32_t *data, size_t len, utf8_t *result);
 
 size_t
-utf32_convert_to_utf16le (const utf32_t *data, size_t len, utf16_t *result);
+utf32_convert_to_utf16le(const utf32_t *data, size_t len, utf16_t *result);
 
 size_t
-utf32_convert_to_latin1 (const utf32_t *data, size_t len, latin1_t *result);
+utf32_convert_to_latin1(const utf32_t *data, size_t len, latin1_t *result);
 
 /**
  * Latin-1
  */
 
 size_t
-latin1_length_from_utf8 (const utf8_t *data, size_t len);
+latin1_length_from_utf8(const utf8_t *data, size_t len);
 
 size_t
-latin1_length_from_utf16le (const utf16_t *data, size_t len);
+latin1_length_from_utf16le(const utf16_t *data, size_t len);
 
 size_t
-latin1_length_from_utf32 (const utf32_t *data, size_t len);
+latin1_length_from_utf32(const utf32_t *data, size_t len);
 
 size_t
-latin1_convert_to_utf8 (const latin1_t *data, size_t len, utf8_t *result);
+latin1_convert_to_utf8(const latin1_t *data, size_t len, utf8_t *result);
 
 size_t
-latin1_convert_to_utf16le (const latin1_t *data, size_t len, utf16_t *result);
+latin1_convert_to_utf16le(const latin1_t *data, size_t len, utf16_t *result);
 
 size_t
-latin1_convert_to_utf32 (const latin1_t *data, size_t len, utf32_t *result);
+latin1_convert_to_utf32(const latin1_t *data, size_t len, utf32_t *result);
 
 /**
  * ASCII
  */
 
 bool
-ascii_validate (const ascii_t *data, size_t len);
+ascii_validate(const ascii_t *data, size_t len);
 
 /**
  * Strings

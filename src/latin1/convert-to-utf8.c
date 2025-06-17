@@ -23,7 +23,7 @@
  */
 
 size_t
-latin1_convert_to_utf8 (const latin1_t *data, size_t len, utf8_t *result) {
+latin1_convert_to_utf8(const latin1_t *data, size_t len, utf8_t *result) {
   size_t pos = 0;
   utf8_t *start = result;
 

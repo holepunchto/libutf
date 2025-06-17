@@ -22,7 +22,7 @@
  */
 
 size_t
-utf32_convert_to_latin1 (const utf32_t *data, size_t len, latin1_t *result) {
+utf32_convert_to_latin1(const utf32_t *data, size_t len, latin1_t *result) {
   size_t pos = 0;
   uint32_t word, overflow = 0;
   latin1_t *start = result;

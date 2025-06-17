@@ -23,7 +23,7 @@
  */
 
 size_t
-latin1_convert_to_utf32 (const latin1_t *data, size_t len, utf32_t *result) {
+latin1_convert_to_utf32(const latin1_t *data, size_t len, utf32_t *result) {
   utf32_t *start = result;
 
   for (size_t i = 0; i < len; i++) {

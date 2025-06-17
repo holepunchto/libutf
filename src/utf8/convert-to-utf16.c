@@ -24,7 +24,7 @@
  */
 
 size_t
-utf8_convert_to_utf16le (const utf8_t *data, size_t len, utf16_t *result) {
+utf8_convert_to_utf16le(const utf8_t *data, size_t len, utf16_t *result) {
   size_t pos = 0;
   utf16_t *start = result;
 

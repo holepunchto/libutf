@@ -14,7 +14,7 @@ typedef enum {
 } utf_endianness_t;
 
 inline utf_endianness_t
-utf_endianness (void) {
+utf_endianness(void) {
   const union {
     uint8_t u8[2];
     uint16_t u16;
@@ -24,23 +24,23 @@ utf_endianness (void) {
 }
 
 inline bool
-utf_is_le (void) {
+utf_is_le(void) {
   return utf_endianness() == utf_le;
 }
 
 inline bool
-utf_is_be (void) {
+utf_is_be(void) {
   return utf_endianness() == utf_be;
 }
 
 inline uint16_t
-utf_swap_uint16 (uint16_t n) {
+utf_swap_uint16(uint16_t n) {
   return ((n & 0x00ff) << 8) |
          ((n & 0xff00) >> 8);
 }
 
 inline uint32_t
-utf_swap_uint32 (uint32_t n) {
+utf_swap_uint32(uint32_t n) {
   return ((n & 0x000000ff) << 24) |
          ((n & 0x0000ff00) << 8) |
          ((n & 0x00ff0000) >> 8) |

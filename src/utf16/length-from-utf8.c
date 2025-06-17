@@ -22,7 +22,7 @@
  */
 
 size_t
-utf16_length_from_utf8 (const utf8_t *data, size_t len) {
+utf16_length_from_utf8(const utf8_t *data, size_t len) {
   size_t counter = 0;
 
   for (size_t i = 0; i < len; i++) {

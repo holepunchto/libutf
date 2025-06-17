@@ -11,7 +11,7 @@
   }
 
 int
-main () {
+main() {
   // ASCII only
   test_convert("\x61\x00\x62\x00\x63\x00", 3, "abc", 3);
 

@@ -21,6 +21,6 @@
  */
 
 size_t
-latin1_length_from_utf32 (const utf32_t *data, size_t len) {
+latin1_length_from_utf32(const utf32_t *data, size_t len) {
   return len;
 }

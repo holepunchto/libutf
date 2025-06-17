@@ -21,7 +21,7 @@
  */
 
 size_t
-utf8_length_from_latin1 (const latin1_t *data, size_t len) {
+utf8_length_from_latin1(const latin1_t *data, size_t len) {
   size_t counter = len;
 
   for (size_t i = 0; i < len; i++) {

@@ -37,24 +37,24 @@ struct utf8_string_view_s {
 };
 
 inline void
-utf8_string_init (utf8_string_t *string) {
+utf8_string_init(utf8_string_t *string) {
   string->data = string->buf;
   string->len = 0;
 }
 
 inline utf8_string_view_t
-utf8_string_view_init (const utf8_t *data, size_t len) {
+utf8_string_view_init(const utf8_t *data, size_t len) {
   utf8_string_view_t view = {data, len};
   return view;
 }
 
 inline void
-utf8_string_destroy (utf8_string_t *string) {
+utf8_string_destroy(utf8_string_t *string) {
   if (string->data != string->buf) free(string->data);
 }
 
 inline int
-utf8_string_reserve (utf8_string_t *string, size_t len) {
+utf8_string_reserve(utf8_string_t *string, size_t len) {
   size_t cap = string->data == string->buf ? sizeof(string->buf) : string->cap;
 
   if (len <= cap) return 0;
@@ -92,7 +92,7 @@ utf8_string_reserve (utf8_string_t *string, size_t len) {
 }
 
 inline int
-utf8_string_shrink_to_fit (utf8_string_t *string) {
+utf8_string_shrink_to_fit(utf8_string_t *string) {
   if (string->data == string->buf) return 0;
 
   size_t cap = string->len;
@@ -116,27 +116,27 @@ utf8_string_shrink_to_fit (utf8_string_t *string) {
 }
 
 inline utf8_string_view_t
-utf8_string_view (const utf8_string_t *string) {
+utf8_string_view(const utf8_string_t *string) {
   return utf8_string_view_init(string->data, string->len);
 }
 
 inline void
-utf8_string_clear (utf8_string_t *string) {
+utf8_string_clear(utf8_string_t *string) {
   string->len = 0;
 }
 
 inline bool
-utf8_string_empty (const utf8_string_t *string) {
+utf8_string_empty(const utf8_string_t *string) {
   return string->len == 0;
 }
 
 inline bool
-utf8_string_view_empty (const utf8_string_view_t view) {
+utf8_string_view_empty(const utf8_string_view_t view) {
   return view.len == 0;
 }
 
 inline int
-utf8_string_copy (const utf8_string_t *string, utf8_string_t *result) {
+utf8_string_copy(const utf8_string_t *string, utf8_string_t *result) {
   int err;
 
   err = utf8_string_reserve(result, string->len);
@@ -150,7 +150,7 @@ utf8_string_copy (const utf8_string_t *string, utf8_string_t *result) {
 }
 
 inline int
-utf8_string_view_copy (const utf8_string_view_t view, utf8_string_t *result) {
+utf8_string_view_copy(const utf8_string_view_t view, utf8_string_t *result) {
   int err;
 
   err = utf8_string_reserve(result, view.len);
@@ -164,7 +164,7 @@ utf8_string_view_copy (const utf8_string_view_t view, utf8_string_t *result) {
 }
 
 inline int
-utf8_string_append (utf8_string_t *string, const utf8_string_t *other) {
+utf8_string_append(utf8_string_t *string, const utf8_string_t *other) {
   int err;
 
   err = utf8_string_reserve(string, string->len + other->len);
@@ -178,7 +178,7 @@ utf8_string_append (utf8_string_t *string, const utf8_string_t *other) {
 }
 
 inline int
-utf8_string_append_view (utf8_string_t *string, const utf8_string_view_t view) {
+utf8_string_append_view(utf8_string_t *string, const utf8_string_view_t view) {
   int err;
 
   err = utf8_string_reserve(string, string->len + view.len);
@@ -192,7 +192,7 @@ utf8_string_append_view (utf8_string_t *string, const utf8_string_view_t view) {
 }
 
 inline int
-utf8_string_append_character (utf8_string_t *string, utf8_t c) {
+utf8_string_append_character(utf8_string_t *string, utf8_t c) {
   int err;
 
   err = utf8_string_reserve(string, string->len + 1);
@@ -206,7 +206,7 @@ utf8_string_append_character (utf8_string_t *string, utf8_t c) {
 }
 
 inline int
-utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t n) {
+utf8_string_append_literal(utf8_string_t *string, const utf8_t *literal, size_t n) {
   int err;
 
   if (n == (size_t) -1) n = strlen((const char *) literal);
@@ -222,7 +222,7 @@ utf8_string_append_literal (utf8_string_t *string, const utf8_t *literal, size_t
 }
 
 inline int
-utf8_string_prepend (utf8_string_t *string, const utf8_string_t *other) {
+utf8_string_prepend(utf8_string_t *string, const utf8_string_t *other) {
   int err;
 
   err = utf8_string_reserve(string, string->len + other->len);
@@ -238,7 +238,7 @@ utf8_string_prepend (utf8_string_t *string, const utf8_string_t *other) {
 }
 
 inline int
-utf8_string_prepend_view (utf8_string_t *string, const utf8_string_view_t view) {
+utf8_string_prepend_view(utf8_string_t *string, const utf8_string_view_t view) {
   int err;
 
   err = utf8_string_reserve(string, string->len + view.len);
@@ -254,7 +254,7 @@ utf8_string_prepend_view (utf8_string_t *string, const utf8_string_view_t view) 
 }
 
 inline int
-utf8_string_prepend_character (utf8_string_t *string, utf8_t c) {
+utf8_string_prepend_character(utf8_string_t *string, utf8_t c) {
   int err;
 
   err = utf8_string_reserve(string, string->len + 1);
@@ -270,7 +270,7 @@ utf8_string_prepend_character (utf8_string_t *string, utf8_t c) {
 }
 
 inline int
-utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_t n) {
+utf8_string_prepend_literal(utf8_string_t *string, const utf8_t *literal, size_t n) {
   int err;
 
   if (n == (size_t) -1) n = strlen((const char *) literal);
@@ -288,7 +288,7 @@ utf8_string_prepend_literal (utf8_string_t *string, const utf8_t *literal, size_
 }
 
 inline int
-utf8_string_insert (utf8_string_t *string, size_t pos, const utf8_string_t *other) {
+utf8_string_insert(utf8_string_t *string, size_t pos, const utf8_string_t *other) {
   int err;
 
   if (pos > string->len) return -1;
@@ -308,7 +308,7 @@ utf8_string_insert (utf8_string_t *string, size_t pos, const utf8_string_t *othe
 }
 
 inline int
-utf8_string_insert_view (utf8_string_t *string, size_t pos, const utf8_string_view_t other) {
+utf8_string_insert_view(utf8_string_t *string, size_t pos, const utf8_string_view_t other) {
   int err;
 
   if (pos > string->len) return -1;
@@ -328,7 +328,7 @@ utf8_string_insert_view (utf8_string_t *string, size_t pos, const utf8_string_vi
 }
 
 inline int
-utf8_string_insert_character (utf8_string_t *string, size_t pos, utf8_t c) {
+utf8_string_insert_character(utf8_string_t *string, size_t pos, utf8_t c) {
   int err;
 
   if (pos > string->len) return -1;
@@ -348,7 +348,7 @@ utf8_string_insert_character (utf8_string_t *string, size_t pos, utf8_t c) {
 }
 
 inline int
-utf8_string_insert_literal (utf8_string_t *string, size_t pos, const utf8_t *literal, size_t n) {
+utf8_string_insert_literal(utf8_string_t *string, size_t pos, const utf8_t *literal, size_t n) {
   int err;
 
   if (pos > string->len) return -1;
@@ -370,7 +370,7 @@ utf8_string_insert_literal (utf8_string_t *string, size_t pos, const utf8_t *lit
 }
 
 inline int
-utf8_string_replace (utf8_string_t *string, size_t pos, size_t len, const utf8_string_t *replacement) {
+utf8_string_replace(utf8_string_t *string, size_t pos, size_t len, const utf8_string_t *replacement) {
   int err;
 
   if (pos > string->len) return -1;
@@ -391,7 +391,7 @@ utf8_string_replace (utf8_string_t *string, size_t pos, size_t len, const utf8_s
 }
 
 inline int
-utf8_string_replace_view (utf8_string_t *string, size_t pos, size_t len, const utf8_string_view_t replacement) {
+utf8_string_replace_view(utf8_string_t *string, size_t pos, size_t len, const utf8_string_view_t replacement) {
   int err;
 
   if (pos > string->len) return -1;
@@ -412,7 +412,7 @@ utf8_string_replace_view (utf8_string_t *string, size_t pos, size_t len, const u
 }
 
 inline int
-utf8_string_replace_character (utf8_string_t *string, size_t pos, size_t len, utf8_t c) {
+utf8_string_replace_character(utf8_string_t *string, size_t pos, size_t len, utf8_t c) {
   int err;
 
   if (pos > string->len) return -1;
@@ -432,7 +432,7 @@ utf8_string_replace_character (utf8_string_t *string, size_t pos, size_t len, ut
 }
 
 inline int
-utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, const utf8_t *literal, size_t n) {
+utf8_string_replace_literal(utf8_string_t *string, size_t pos, size_t len, const utf8_t *literal, size_t n) {
   int err;
 
   if (pos > string->len) return -1;
@@ -455,7 +455,7 @@ utf8_string_replace_literal (utf8_string_t *string, size_t pos, size_t len, cons
 }
 
 inline int
-utf8_string_erase (utf8_string_t *string, size_t pos, size_t len) {
+utf8_string_erase(utf8_string_t *string, size_t pos, size_t len) {
   if (pos > string->len) return -1;
   if (pos + len > string->len) len = string->len - pos;
 
@@ -467,7 +467,7 @@ utf8_string_erase (utf8_string_t *string, size_t pos, size_t len) {
 }
 
 inline int
-utf8_string_concat (const utf8_string_t *string, const utf8_string_t *other, utf8_string_t *result) {
+utf8_string_concat(const utf8_string_t *string, const utf8_string_t *other, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -485,7 +485,7 @@ utf8_string_concat (const utf8_string_t *string, const utf8_string_t *other, utf
 }
 
 inline int
-utf8_string_view_concat (const utf8_string_view_t view, const utf8_string_t *other, utf8_string_t *result) {
+utf8_string_view_concat(const utf8_string_view_t view, const utf8_string_t *other, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -503,7 +503,7 @@ utf8_string_view_concat (const utf8_string_view_t view, const utf8_string_t *oth
 }
 
 inline int
-utf8_string_concat_view (const utf8_string_t *string, const utf8_string_view_t other, utf8_string_t *result) {
+utf8_string_concat_view(const utf8_string_t *string, const utf8_string_view_t other, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -521,7 +521,7 @@ utf8_string_concat_view (const utf8_string_t *string, const utf8_string_view_t o
 }
 
 inline int
-utf8_string_view_concat_view (const utf8_string_view_t view, const utf8_string_view_t other, utf8_string_t *result) {
+utf8_string_view_concat_view(const utf8_string_view_t view, const utf8_string_view_t other, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -539,7 +539,7 @@ utf8_string_view_concat_view (const utf8_string_view_t view, const utf8_string_v
 }
 
 inline int
-utf8_string_concat_character (const utf8_string_t *string, utf8_t c, utf8_string_t *result) {
+utf8_string_concat_character(const utf8_string_t *string, utf8_t c, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -557,7 +557,7 @@ utf8_string_concat_character (const utf8_string_t *string, utf8_t c, utf8_string
 }
 
 inline int
-utf8_string_view_concat_character (const utf8_string_view_t view, utf8_t c, utf8_string_t *result) {
+utf8_string_view_concat_character(const utf8_string_view_t view, utf8_t c, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -575,7 +575,7 @@ utf8_string_view_concat_character (const utf8_string_view_t view, utf8_t c, utf8
 }
 
 inline int
-utf8_string_concat_literal (const utf8_string_t *string, const utf8_t *literal, size_t n, utf8_string_t *result) {
+utf8_string_concat_literal(const utf8_string_t *string, const utf8_t *literal, size_t n, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -593,7 +593,7 @@ utf8_string_concat_literal (const utf8_string_t *string, const utf8_t *literal, 
 }
 
 inline int
-utf8_string_view_concat_literal (const utf8_string_view_t view, const utf8_t *literal, size_t n, utf8_string_t *result) {
+utf8_string_view_concat_literal(const utf8_string_view_t view, const utf8_t *literal, size_t n, utf8_string_t *result) {
   int err;
 
   utf8_string_init(result);
@@ -611,7 +611,7 @@ utf8_string_view_concat_literal (const utf8_string_view_t view, const utf8_t *li
 }
 
 inline int
-utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other) {
+utf8_string_compare(const utf8_string_t *string, const utf8_string_t *other) {
   size_t a_len = string->len;
   size_t b_len = other->len;
 
@@ -626,7 +626,7 @@ utf8_string_compare (const utf8_string_t *string, const utf8_string_t *other) {
 }
 
 inline int
-utf8_string_view_compare (const utf8_string_view_t view, const utf8_string_view_t other) {
+utf8_string_view_compare(const utf8_string_view_t view, const utf8_string_view_t other) {
   size_t a_len = view.len;
   size_t b_len = other.len;
 
@@ -641,7 +641,7 @@ utf8_string_view_compare (const utf8_string_view_t view, const utf8_string_view_
 }
 
 inline int
-utf8_string_compare_literal (const utf8_string_t *string, const utf8_t *literal, size_t n) {
+utf8_string_compare_literal(const utf8_string_t *string, const utf8_t *literal, size_t n) {
   if (n == (size_t) -1) n = strlen((const char *) literal);
 
   size_t a_len = string->len;
@@ -658,7 +658,7 @@ utf8_string_compare_literal (const utf8_string_t *string, const utf8_t *literal,
 }
 
 inline int
-utf8_string_view_compare_literal (const utf8_string_view_t view, const utf8_t *literal, size_t n) {
+utf8_string_view_compare_literal(const utf8_string_view_t view, const utf8_t *literal, size_t n) {
   if (n == (size_t) -1) n = strlen((const char *) literal);
 
   size_t a_len = view.len;
@@ -675,7 +675,7 @@ utf8_string_view_compare_literal (const utf8_string_view_t view, const utf8_t *l
 }
 
 inline utf8_string_view_t
-utf8_string_substring (const utf8_string_t *string, size_t start, size_t end) {
+utf8_string_substring(const utf8_string_t *string, size_t start, size_t end) {
   if (end == (size_t) -1 || end > string->len) end = string->len;
   if (start > end) start = end;
 
@@ -683,7 +683,7 @@ utf8_string_substring (const utf8_string_t *string, size_t start, size_t end) {
 }
 
 inline utf8_string_view_t
-utf8_string_view_substring (const utf8_string_view_t view, size_t start, size_t end) {
+utf8_string_view_substring(const utf8_string_view_t view, size_t start, size_t end) {
   if (end == (size_t) -1 || end > view.len) end = view.len;
   if (start > end) start = end;
 
@@ -691,7 +691,7 @@ utf8_string_view_substring (const utf8_string_view_t view, size_t start, size_t 
 }
 
 inline int
-utf8_string_substring_copy (const utf8_string_t *string, size_t start, size_t end, utf8_string_t *result) {
+utf8_string_substring_copy(const utf8_string_t *string, size_t start, size_t end, utf8_string_t *result) {
   int err;
 
   if (end == (size_t) -1 || end > string->len) end = string->len;
@@ -712,7 +712,7 @@ utf8_string_substring_copy (const utf8_string_t *string, size_t start, size_t en
 }
 
 inline int
-utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, size_t end, utf8_string_t *result) {
+utf8_string_view_substring_copy(const utf8_string_view_t view, size_t start, size_t end, utf8_string_t *result) {
   int err;
 
   if (end == (size_t) -1 || end > view.len) end = view.len;
@@ -731,7 +731,7 @@ utf8_string_view_substring_copy (const utf8_string_view_t view, size_t start, si
 }
 
 inline size_t
-utf8_string_index_of_character (const utf8_string_t *string, size_t pos, utf8_t c) {
+utf8_string_index_of_character(const utf8_string_t *string, size_t pos, utf8_t c) {
   for (size_t i = pos, n = string->len; i < n; i++) {
     if (string->data[i] == c) {
       return i;
@@ -742,7 +742,7 @@ utf8_string_index_of_character (const utf8_string_t *string, size_t pos, utf8_t 
 }
 
 inline size_t
-utf8_string_view_index_of_character (const utf8_string_view_t view, size_t pos, utf8_t c) {
+utf8_string_view_index_of_character(const utf8_string_view_t view, size_t pos, utf8_t c) {
   for (size_t i = pos, n = view.len; i < n; i++) {
     if (view.data[i] == c) {
       return i;
@@ -753,7 +753,7 @@ utf8_string_view_index_of_character (const utf8_string_view_t view, size_t pos, 
 }
 
 inline size_t
-utf8_string_last_index_of_character (const utf8_string_t *string, size_t pos, utf8_t c) {
+utf8_string_last_index_of_character(const utf8_string_t *string, size_t pos, utf8_t c) {
   if (pos == (size_t) -1) pos = string->len - 1;
   else if (pos >= string->len) return (size_t) -1;
 
@@ -767,7 +767,7 @@ utf8_string_last_index_of_character (const utf8_string_t *string, size_t pos, ut
 }
 
 inline size_t
-utf8_string_view_last_index_of_character (const utf8_string_view_t view, size_t pos, utf8_t c) {
+utf8_string_view_last_index_of_character(const utf8_string_view_t view, size_t pos, utf8_t c) {
   if (pos == (size_t) -1) pos = view.len - 1;
   else if (pos >= view.len) return (size_t) -1;
 

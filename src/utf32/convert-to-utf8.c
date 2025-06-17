@@ -23,7 +23,7 @@
  */
 
 size_t
-utf32_convert_to_utf8 (const utf32_t *data, size_t len, utf8_t *result) {
+utf32_convert_to_utf8(const utf32_t *data, size_t len, utf8_t *result) {
   size_t pos = 0;
   uint32_t word;
   utf8_t *start = result;

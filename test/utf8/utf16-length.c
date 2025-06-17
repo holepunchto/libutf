@@ -8,7 +8,7 @@
   }
 
 int
-main () {
+main() {
   // ASCII character 'A'
   test_length("\x41", 1, 1);
 

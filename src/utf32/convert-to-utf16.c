@@ -23,7 +23,7 @@
  */
 
 size_t
-utf32_convert_to_utf16le (const utf32_t *data, size_t len, utf16_t *result) {
+utf32_convert_to_utf16le(const utf32_t *data, size_t len, utf16_t *result) {
   size_t pos = 0;
   uint32_t word;
   utf16_t *start = result;

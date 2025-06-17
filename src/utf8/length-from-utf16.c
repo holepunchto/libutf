@@ -23,7 +23,7 @@
  */
 
 size_t
-utf8_length_from_utf16le (const utf16_t *data, size_t len) {
+utf8_length_from_utf16le(const utf16_t *data, size_t len) {
   size_t counter = 0;
   uint16_t word;
 

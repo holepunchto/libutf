@@ -8,7 +8,7 @@
   }
 
 int
-main () {
+main() {
   // An isolated high surrogate
   test_validate("\x01\xd8", 1);
 

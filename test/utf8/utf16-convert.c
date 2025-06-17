@@ -11,7 +11,7 @@
   }
 
 int
-main () {
+main() {
   // ASCII character 'A'
   test_convert("\x41", 1, "\x41\x00", 1);
 

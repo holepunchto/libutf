@@ -23,7 +23,7 @@
  */
 
 bool
-utf32_validate (const utf32_t *data, size_t len) {
+utf32_validate(const utf32_t *data, size_t len) {
   uint64_t pos = 0;
   uint32_t word;
 

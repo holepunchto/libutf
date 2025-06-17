@@ -24,7 +24,7 @@
  */
 
 bool
-utf8_validate (const utf8_t *data, size_t len) {
+utf8_validate(const utf8_t *data, size_t len) {
   uint64_t pos = 0;
   uint8_t word;
 
