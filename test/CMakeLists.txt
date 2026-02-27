@@ -1,4 +1,5 @@
 list(APPEND tests
+  utf8/latin1-convert
   utf8/utf16-convert
   utf8/utf16-length
   utf8/validate
