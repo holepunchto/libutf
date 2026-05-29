@@ -58,10 +58,15 @@ utf16le_convert_to_utf8(const utf16_t *data, size_t len, utf8_t *result) {
       pos++;
     } else {
       diff = word - 0xd800;
-      if (pos + 1 >= len) {
-        return 0;
+      if (diff > 0x3ff || pos + 1 >= len) {
+        pos++;
+        continue;
       }
       word = utf_is_be() ? utf_swap_uint16(data[pos + 1]) : data[pos + 1];
+      if ((word & 0xfc00) != 0xdc00) {
+        pos++;
+        continue;
+      }
       uint32_t value = (uint32_t) ((diff << 10) + (word - 0xdc00) + 0x10000);
       *result++ = (uint8_t) (value >> 18) | 0b11110000;
       *result++ = ((value >> 12) & 0b111111) | 0b10000000;
