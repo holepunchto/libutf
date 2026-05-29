@@ -33,10 +33,14 @@ utf8_length_from_utf16le(const utf16_t *data, size_t len) {
       counter++;
     } else if (word <= 0x7ff) {
       counter += 2;
-    } else if ((word <= 0xd7ff) || (word >= 0xe000)) {
+    } else if ((word & 0xf800) != 0xd800) {
       counter += 3;
-    } else {
-      counter += 2;
+    } else if (word < 0xdc00 && i + 1 < len) {
+      uint16_t next = utf_is_be() ? utf_swap_uint16(data[i + 1]) : data[i + 1];
+      if ((next & 0xfc00) == 0xdc00) {
+        counter += 4;
+        i++;
+      }
     }
   }
 

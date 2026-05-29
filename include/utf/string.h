@@ -59,6 +59,9 @@ utf8_string_reserve(utf8_string_t *string, size_t len) {
 
   if (len <= cap) return 0;
 
+  // Round up to next power of two; bail out if the rounding would overflow.
+  if (len > (SIZE_MAX >> 1) + 1) return -1;
+
   // https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
   len--;
   len |= len >> 1;
@@ -374,7 +377,7 @@ utf8_string_replace(utf8_string_t *string, size_t pos, size_t len, const utf8_st
   int err;
 
   if (pos > string->len) return -1;
-  if (pos + len > string->len) len = string->len - pos;
+  if (len > string->len - pos) len = string->len - pos;
 
   size_t replaced_len = string->len + replacement->len - len;
 
@@ -395,7 +398,7 @@ utf8_string_replace_view(utf8_string_t *string, size_t pos, size_t len, const ut
   int err;
 
   if (pos > string->len) return -1;
-  if (pos + len > string->len) len = string->len - pos;
+  if (len > string->len - pos) len = string->len - pos;
 
   size_t replaced_len = string->len + replacement.len - len;
 
@@ -416,6 +419,7 @@ utf8_string_replace_character(utf8_string_t *string, size_t pos, size_t len, utf
   int err;
 
   if (pos > string->len) return -1;
+  if (len > string->len - pos) len = string->len - pos;
 
   size_t replaced_len = string->len + 1 - len;
 
@@ -436,7 +440,7 @@ utf8_string_replace_literal(utf8_string_t *string, size_t pos, size_t len, const
   int err;
 
   if (pos > string->len) return -1;
-  if (pos + len > string->len) len = string->len - pos;
+  if (len > string->len - pos) len = string->len - pos;
 
   if (n == (size_t) -1) n = strlen((const char *) literal);
 
@@ -457,7 +461,7 @@ utf8_string_replace_literal(utf8_string_t *string, size_t pos, size_t len, const
 inline int
 utf8_string_erase(utf8_string_t *string, size_t pos, size_t len) {
   if (pos > string->len) return -1;
-  if (pos + len > string->len) len = string->len - pos;
+  if (len > string->len - pos) len = string->len - pos;
 
   memmove(&string->data[pos], &string->data[pos + len], string->len - pos - len);
 
@@ -754,6 +758,7 @@ utf8_string_view_index_of_character(const utf8_string_view_t view, size_t pos, u
 
 inline size_t
 utf8_string_last_index_of_character(const utf8_string_t *string, size_t pos, utf8_t c) {
+  if (string->len == 0) return (size_t) -1;
   if (pos == (size_t) -1) pos = string->len - 1;
   else if (pos >= string->len) return (size_t) -1;
 
@@ -768,6 +773,7 @@ utf8_string_last_index_of_character(const utf8_string_t *string, size_t pos, utf
 
 inline size_t
 utf8_string_view_last_index_of_character(const utf8_string_view_t view, size_t pos, utf8_t c) {
+  if (view.len == 0) return (size_t) -1;
   if (pos == (size_t) -1) pos = view.len - 1;
   else if (pos >= view.len) return (size_t) -1;
 
