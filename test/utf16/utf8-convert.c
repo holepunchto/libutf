@@ -27,16 +27,16 @@ main() {
   // Surrogate pair
   test_convert("\x00\xd8\x37\xdc", 2, "\xf0\x90\x80\xb7", 4);
 
-  // Lone high surrogate followed by ASCII — must skip the surrogate (not consume the ASCII)
+  // Lone high surrogate followed by ASCII, must skip the surrogate (not consume the ASCII)
   test_convert("\x00\xd8\x41\x00", 2, "\x41", 1);
 
-  // Lone low surrogate followed by ASCII — must skip the surrogate
+  // Lone low surrogate followed by ASCII, must skip the surrogate
   test_convert("\x00\xdc\x41\x00", 2, "\x41", 1);
 
   // High surrogate followed by another high surrogate that begins a valid pair
   test_convert("\x00\xd8\x00\xd8\x37\xdc", 3, "\xf0\x90\x80\xb7", 4);
 
-  // Lone trailing high surrogate (truncated) — must not OOB-read
+  // Lone trailing high surrogate (truncated), must not OOB-read
   {
     utf8_t result[1] = {0xaa};
     assert(utf16le_convert_to_utf8((utf16_t *) "\x00\xd8", 1, result) == 0);

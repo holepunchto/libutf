@@ -1,6 +1,10 @@
 {
   "private": true,
   "name": "libutf",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "prettier --check ."
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/holepunchto/libutf.git"
@@ -12,6 +16,8 @@
   },
   "homepage": "https://github.com/holepunchto/libutf#readme",
   "devDependencies": {
-    "cmake-harden": "^1.1.0"
+    "cmake-harden": "^1.1.0",
+    "prettier": "^3.8.3",
+    "prettier-config-holepunch": "^2.0.0"
   }
 }

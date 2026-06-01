@@ -1,0 +1,34 @@
+name: Nightly
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fuzz:
+    runs-on: ubuntu-latest
+    name: Fuzz
+    steps:
+      - uses: holepunchto/actions/bare-base@v1
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+        with:
+          path: test/fuzz/corpus
+          key: fuzz-corpus-${{ github.run_id }}
+          restore-keys: fuzz-corpus-
+      - uses: holepunchto/actions/compile-prebuilds@v1
+        with:
+          platform: ${{ matrix.platform }}
+          arch: ${{ matrix.arch }}
+          flags: --debug -D FUZZ=ON
+      - run: bare-make test
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: always()
+        with:
+          name: corpus
+          path: test/fuzz/corpus
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: failure()
+        with:
+          name: crashes
+          path: test/fuzz/crashes

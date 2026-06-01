@@ -46,11 +46,6 @@ main() {
     e = utf8_string_reserve(&s, (SIZE_MAX >> 1) + 2);
     assert(e == -1);
 
-    // The boundary case (SIZE_MAX/2 + 1) is exactly representable as a
-    // power of two and must still succeed in principle, though allocation may
-    // fail; we only require that the function does not silently overflow.
-    // (Skip the actual call — allocating that much will fail on every host.)
-
     utf8_string_destroy(&s);
   }
 }
