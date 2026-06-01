@@ -7,8 +7,14 @@ permissions:
   contents: read
 jobs:
   fuzz:
-    runs-on: ubuntu-latest
-    name: Fuzz
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            arch: x64
+    runs-on: ${{ matrix.os }}
+    name: Fuzz / ${{ matrix.platform }}-${{ matrix.arch }}
     steps:
       - uses: holepunchto/actions/bare-base@v1
       - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
