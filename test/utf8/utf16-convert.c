@@ -5,7 +5,7 @@
 
 #define test_convert(string, len, expected, written) \
   { \
-    utf16_t result[written]; \
+    utf16_t result[len]; \
     assert(utf8_convert_to_utf16le((utf8_t *) string, len, result) == written); \
     assert(memcmp(expected, result, written) == 0); \
   }
