@@ -5,7 +5,7 @@
 
 #define test_convert(string, len, expected, written) \
   { \
-    latin1_t result[written]; \
+    latin1_t result[len]; \
     assert(utf8_convert_to_latin1((utf8_t *) string, len, result) == written); \
     assert(memcmp(expected, result, written) == 0); \
   }
