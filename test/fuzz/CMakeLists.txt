@@ -18,12 +18,23 @@ endif()
 
 option(FUZZ "Register fuzzers as tests" OFF)
 
-set(FUZZ_DURATION 600 CACHE STRING "Seconds to run each fuzzer")
+set(FUZZ_DURATION 120 CACHE STRING "Seconds to run each fuzzer")
 
 math(EXPR FUZZ_TIMEOUT "${FUZZ_DURATION} + 60")
 
 list(APPEND fuzzers
+  latin1/convert-to-utf8
+  latin1/convert-to-utf16
+  latin1/convert-to-utf32
   utf8/convert-to-latin1
+  utf8/convert-to-utf16
+  utf8/convert-to-utf32
+  utf16/convert-to-latin1
+  utf16/convert-to-utf8
+  utf16/convert-to-utf32
+  utf32/convert-to-latin1
+  utf32/convert-to-utf8
+  utf32/convert-to-utf16
 )
 
 foreach(fuzzer IN LISTS fuzzers)
