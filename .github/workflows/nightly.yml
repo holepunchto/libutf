@@ -17,12 +17,12 @@ jobs:
     name: Fuzz / ${{ matrix.platform }}-${{ matrix.arch }}
     steps:
       - uses: holepunchto/actions/bare-base@v1
-      - uses: holepunchto/actions/restore-fuzz-corpus@acca9891adde236beadba3823846e09777490ad9
+      - uses: holepunchto/actions/restore-fuzz-corpus@v1
       - uses: holepunchto/actions/compile-prebuilds@v1
         with:
           platform: ${{ matrix.platform }}
           arch: ${{ matrix.arch }}
           flags: --debug --sanitize address -D FUZZ=ON
       - run: bare-make test
-      - uses: holepunchto/actions/save-fuzz-corpus@acca9891adde236beadba3823846e09777490ad9
+      - uses: holepunchto/actions/save-fuzz-corpus@v1
         if: always()
