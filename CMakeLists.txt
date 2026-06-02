@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.31)
 
 find_package(cmake-harden REQUIRED PATHS node_modules/cmake-harden)
+find_package(cmake-fuzz REQUIRED PATHS node_modules/cmake-fuzz)
 
 project(utf C)
 
