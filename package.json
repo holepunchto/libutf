@@ -16,6 +16,7 @@
   },
   "homepage": "https://github.com/holepunchto/libutf#readme",
   "devDependencies": {
+    "cmake-fuzz": "^0.1.0",
     "cmake-harden": "^1.1.0",
     "prettier": "^3.8.3",
     "prettier-config-holepunch": "^2.0.0"
