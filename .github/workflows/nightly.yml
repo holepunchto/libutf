@@ -22,7 +22,7 @@ jobs:
         with:
           platform: ${{ matrix.platform }}
           arch: ${{ matrix.arch }}
-          flags: --debug --sanitize address -D FUZZ=ON
+          flags: --debug --sanitize address --fuzz
       - run: bare-make test
       - uses: holepunchto/actions/save-fuzz-corpus@v1
         if: always()
