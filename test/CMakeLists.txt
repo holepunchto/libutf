@@ -5,7 +5,9 @@ list(APPEND tests
   utf8/validate
   utf8/validate-invalid
   utf8/string-append
+  utf8/string-compare
   utf8/string-erase
+  utf8/string-index
   utf8/string-last-index
   utf8/string-prepend
   utf8/string-replace
