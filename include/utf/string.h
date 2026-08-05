@@ -81,12 +81,14 @@ utf8_string_reserve(utf8_string_t *string, size_t len) {
   if (string->data == string->buf) {
     data = (utf8_t *) malloc(cap);
 
+    if (data == NULL) return -1;
+
     memcpy(data, string->data, string->len);
   } else {
     data = (utf8_t *) realloc(string->data, cap);
-  }
 
-  if (data == NULL) return -1;
+    if (data == NULL) return -1;
+  }
 
   string->data = data;
   string->cap = cap;
@@ -619,7 +621,12 @@ utf8_string_compare(const utf8_string_t *string, const utf8_string_t *other) {
   size_t a_len = string->len;
   size_t b_len = other->len;
 
-  int result = strncmp((const char *) string->data, (const char *) other->data, a_len < b_len ? a_len : b_len);
+  // The shorter of the two lengths, over which the contents are compared. The
+  // comparison is one of bytes rather than of C strings, a length delimited
+  // string being free to hold a null byte.
+  size_t len = a_len < b_len ? a_len : b_len;
+
+  int result = len == 0 ? 0 : memcmp(string->data, other->data, len);
 
   if (result == 0) return a_len < b_len
                             ? -1
@@ -634,7 +641,12 @@ utf8_string_view_compare(const utf8_string_view_t view, const utf8_string_view_t
   size_t a_len = view.len;
   size_t b_len = other.len;
 
-  int result = strncmp((const char *) view.data, (const char *) other.data, a_len < b_len ? a_len : b_len);
+  // The shorter of the two lengths, over which the contents are compared. The
+  // comparison is one of bytes rather than of C strings, a length delimited
+  // string being free to hold a null byte.
+  size_t len = a_len < b_len ? a_len : b_len;
+
+  int result = len == 0 ? 0 : memcmp(view.data, other.data, len);
 
   if (result == 0) return a_len < b_len
                             ? -1
@@ -651,7 +663,12 @@ utf8_string_compare_literal(const utf8_string_t *string, const utf8_t *literal, 
   size_t a_len = string->len;
   size_t b_len = n;
 
-  int result = strncmp((const char *) string->data, (const char *) literal, a_len < b_len ? a_len : b_len);
+  // The shorter of the two lengths, over which the contents are compared. The
+  // comparison is one of bytes rather than of C strings, a length delimited
+  // string being free to hold a null byte.
+  size_t len = a_len < b_len ? a_len : b_len;
+
+  int result = len == 0 ? 0 : memcmp(string->data, literal, len);
 
   if (result == 0) return a_len < b_len
                             ? -1
@@ -668,7 +685,12 @@ utf8_string_view_compare_literal(const utf8_string_view_t view, const utf8_t *li
   size_t a_len = view.len;
   size_t b_len = n;
 
-  int result = strncmp((const char *) view.data, (const char *) literal, a_len < b_len ? a_len : b_len);
+  // The shorter of the two lengths, over which the contents are compared. The
+  // comparison is one of bytes rather than of C strings, a length delimited
+  // string being free to hold a null byte.
+  size_t len = a_len < b_len ? a_len : b_len;
+
+  int result = len == 0 ? 0 : memcmp(view.data, literal, len);
 
   if (result == 0) return a_len < b_len
                             ? -1
@@ -736,24 +758,22 @@ utf8_string_view_substring_copy(const utf8_string_view_t view, size_t start, siz
 
 inline size_t
 utf8_string_index_of_character(const utf8_string_t *string, size_t pos, utf8_t c) {
-  for (size_t i = pos, n = string->len; i < n; i++) {
-    if (string->data[i] == c) {
-      return i;
-    }
-  }
+  // Also catches a pos of (size_t) -1, which must not be turned into a length.
+  if (pos >= string->len) return (size_t) -1;
 
-  return (size_t) -1;
+  const utf8_t *found = (const utf8_t *) memchr(&string->data[pos], c, string->len - pos);
+
+  return found == NULL ? (size_t) -1 : (size_t) (found - string->data);
 }
 
 inline size_t
 utf8_string_view_index_of_character(const utf8_string_view_t view, size_t pos, utf8_t c) {
-  for (size_t i = pos, n = view.len; i < n; i++) {
-    if (view.data[i] == c) {
-      return i;
-    }
-  }
+  // Also catches a pos of (size_t) -1, which must not be turned into a length.
+  if (pos >= view.len) return (size_t) -1;
 
-  return (size_t) -1;
+  const utf8_t *found = (const utf8_t *) memchr(&view.data[pos], c, view.len - pos);
+
+  return found == NULL ? (size_t) -1 : (size_t) (found - view.data);
 }
 
 inline size_t
