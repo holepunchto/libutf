@@ -52,6 +52,7 @@ target_sources(
     src/utf32/length-from-latin1.c
     src/utf32/length-from-utf8.c
     src/utf32/length-from-utf16.c
+    src/utf32/string.c
     src/utf32/validate.c
 )
 
