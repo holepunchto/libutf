@@ -17,6 +17,16 @@ list(APPEND tests
   utf16/utf8-length
   utf16/validate
   utf16/validate-invalid
+  utf32/string-append
+  utf32/string-compare
+  utf32/string-erase
+  utf32/string-index
+  utf32/string-insert
+  utf32/string-last-index
+  utf32/string-prepend
+  utf32/string-replace
+  utf32/string-reserve
+  utf32/string-substring
 )
 
 foreach(test IN LISTS tests)
