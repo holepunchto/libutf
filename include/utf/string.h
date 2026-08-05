@@ -723,8 +723,6 @@ utf8_string_substring_copy(const utf8_string_t *string, size_t start, size_t end
   if (end == (size_t) -1 || end > string->len) end = string->len;
   if (start > end) start = end;
 
-  utf8_string_init(result);
-
   size_t len = end - start;
 
   err = utf8_string_reserve(result, len);
