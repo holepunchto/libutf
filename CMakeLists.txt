@@ -1,9 +1,11 @@
-cmake_minimum_required(VERSION 3.31)
+cmake_minimum_required(VERSION 4.0)
 
 find_package(cmake-harden REQUIRED PATHS node_modules/cmake-harden)
 find_package(cmake-fuzz REQUIRED PATHS node_modules/cmake-fuzz)
 
 project(utf C)
+
+get_property(shared GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS)
 
 add_library(utf OBJECT)
 
@@ -13,7 +15,7 @@ set_target_properties(
   utf
   PROPERTIES
   C_STANDARD 99
-  POSITION_INDEPENDENT_CODE ON
+  POSITION_INDEPENDENT_CODE ${shared}
 )
 
 target_sources(
@@ -62,20 +64,22 @@ target_include_directories(
     include
 )
 
-add_library(utf_shared SHARED)
+if(shared)
+  add_library(utf_shared SHARED)
 
-set_target_properties(
-  utf_shared
-  PROPERTIES
-  OUTPUT_NAME utf
-  WINDOWS_EXPORT_ALL_SYMBOLS ON
-)
+  set_target_properties(
+    utf_shared
+    PROPERTIES
+    OUTPUT_NAME utf
+    WINDOWS_EXPORT_ALL_SYMBOLS ON
+  )
 
-target_link_libraries(
-  utf_shared
-  PUBLIC
-    utf
-)
+  target_link_libraries(
+    utf_shared
+    PUBLIC
+      utf
+  )
+endif()
 
 add_library(utf_static STATIC)
 
@@ -92,7 +96,11 @@ target_link_libraries(
     utf
 )
 
-install(TARGETS utf_shared utf_static)
+install(TARGETS utf_static)
+
+if(shared)
+  install(TARGETS utf_shared)
+endif()
 
 install(FILES include/utf.h DESTINATION include)
 
