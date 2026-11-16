@@ -2,28 +2,19 @@ cmake_minimum_required(VERSION 4.0)
 
 find_package(cmake-harden REQUIRED PATHS node_modules/cmake-harden)
 find_package(cmake-fuzz REQUIRED PATHS node_modules/cmake-fuzz)
+find_package(cmake-prelude REQUIRED PATHS node_modules/cmake-prelude)
+find_package(cmake-test REQUIRED PATHS node_modules/cmake-test)
 
-project(utf C)
+project(utf LANGUAGES C VERSION 0.0.0)
 
-get_property(shared GLOBAL PROPERTY TARGET_SUPPORTS_SHARED_LIBS)
-
-add_library(utf OBJECT)
-
-harden(utf)
-
-set_target_properties(
+add_library_targets(
   utf
-  PROPERTIES
-  C_STANDARD 99
-  POSITION_INDEPENDENT_CODE ${shared}
-)
-
-target_sources(
-  utf
-  INTERFACE
+  HEADERS
     include/utf.h
     include/utf/string.h
-  PRIVATE
+  FEATURES
+    c_std_11
+  SOURCES
     src/endianness.c
     src/endianness.h
     src/ascii/validate.c
@@ -58,56 +49,6 @@ target_sources(
     src/utf32/validate.c
 )
 
-target_include_directories(
-  utf
-  PUBLIC
-    include
-)
+harden(utf)
 
-if(shared)
-  add_library(utf_shared SHARED)
-
-  set_target_properties(
-    utf_shared
-    PROPERTIES
-    OUTPUT_NAME utf
-    WINDOWS_EXPORT_ALL_SYMBOLS ON
-  )
-
-  target_link_libraries(
-    utf_shared
-    PUBLIC
-      utf
-  )
-endif()
-
-add_library(utf_static STATIC)
-
-set_target_properties(
-  utf_static
-  PROPERTIES
-  OUTPUT_NAME utf
-  PREFIX lib
-)
-
-target_link_libraries(
-  utf_static
-  PUBLIC
-    utf
-)
-
-install(TARGETS utf_static)
-
-if(shared)
-  install(TARGETS utf_shared)
-endif()
-
-install(FILES include/utf.h DESTINATION include)
-
-install(DIRECTORY include/utf DESTINATION include)
-
-if(PROJECT_IS_TOP_LEVEL)
-  enable_testing()
-
-  add_subdirectory(test)
-endif()
+add_test_subdirectory(test)

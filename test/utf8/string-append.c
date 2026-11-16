@@ -1,8 +1,8 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../../include/utf.h"
-#include "../../include/utf/string.h"
+#include <utf.h>
+#include <utf/string.h>
 
 int
 main() {
