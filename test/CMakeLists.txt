@@ -1,56 +1,40 @@
-list(APPEND tests
-  utf8/latin1-convert
-  utf8/utf16-convert
-  utf8/utf16-length
-  utf8/validate
-  utf8/validate-invalid
-  utf8/string-append
-  utf8/string-compare
-  utf8/string-erase
-  utf8/string-index
-  utf8/string-last-index
-  utf8/string-prepend
-  utf8/string-replace
-  utf8/string-reserve
-  utf8/string-substring
-  utf16/utf8-convert
-  utf16/utf8-length
-  utf16/validate
-  utf16/validate-invalid
-  utf32/string-append
-  utf32/string-compare
-  utf32/string-erase
-  utf32/string-index
-  utf32/string-insert
-  utf32/string-last-index
-  utf32/string-prepend
-  utf32/string-replace
-  utf32/string-reserve
-  utf32/string-substring
+if(TARGET utf_shared)
+  set(library utf::shared)
+else()
+  set(library utf::static)
+endif()
+
+add_test_executables(
+  utf8/latin1-convert.c
+  utf8/utf16-convert.c
+  utf8/utf16-length.c
+  utf8/validate.c
+  utf8/validate-invalid.c
+  utf8/string-append.c
+  utf8/string-compare.c
+  utf8/string-erase.c
+  utf8/string-index.c
+  utf8/string-last-index.c
+  utf8/string-prepend.c
+  utf8/string-replace.c
+  utf8/string-reserve.c
+  utf8/string-substring.c
+  utf16/utf8-convert.c
+  utf16/utf8-length.c
+  utf16/validate.c
+  utf16/validate-invalid.c
+  utf32/string-append.c
+  utf32/string-compare.c
+  utf32/string-erase.c
+  utf32/string-index.c
+  utf32/string-insert.c
+  utf32/string-last-index.c
+  utf32/string-prepend.c
+  utf32/string-replace.c
+  utf32/string-reserve.c
+  utf32/string-substring.c
+  LINK
+    ${library}
 )
-
-foreach(test IN LISTS tests)
-  string(REPLACE "/" "_" name ${test})
-
-  add_executable(${name} ${test}.c)
-
-  target_link_libraries(
-    ${name}
-    PRIVATE
-      utf_static
-  )
-
-  add_test(
-    NAME ${name}
-    COMMAND ${name}
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  )
-
-  set_tests_properties(
-    ${name}
-    PROPERTIES
-    TIMEOUT 30
-  )
-endforeach()
 
 add_subdirectory(fuzz)

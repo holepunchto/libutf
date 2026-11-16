@@ -1,7 +1,7 @@
 #include <assert.h>
 #include <string.h>
 
-#include "../../include/utf.h"
+#include <utf.h>
 
 #define test_convert(string, len, expected, written) \
   { \

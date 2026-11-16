@@ -9,6 +9,20 @@ extern "C" {
 #include <stddef.h>
 #include <stdint.h>
 
+#if defined(_WIN32)
+#if defined(UTF_BUILDING)
+#define UTF_EXPORT __declspec(dllexport)
+#elif defined(UTF_SHARED)
+#define UTF_EXPORT __declspec(dllimport)
+#else
+#define UTF_EXPORT
+#endif
+#elif defined(__GNUC__)
+#define UTF_EXPORT __attribute__((visibility("default")))
+#else
+#define UTF_EXPORT
+#endif
+
 typedef unsigned char utf8_t;
 typedef uint_least16_t utf16_t;
 typedef uint_least32_t utf32_t;
@@ -19,104 +33,104 @@ typedef unsigned char ascii_t;
  * UTF-8
  */
 
-bool
+UTF_EXPORT bool
 utf8_validate(const utf8_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf8_length_from_utf16le(const utf16_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf8_length_from_utf32(const utf32_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf8_length_from_latin1(const latin1_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf8_convert_to_utf16le(const utf8_t *data, size_t len, utf16_t *result);
 
-size_t
+UTF_EXPORT size_t
 utf8_convert_to_utf32(const utf8_t *data, size_t len, utf32_t *result);
 
-size_t
+UTF_EXPORT size_t
 utf8_convert_to_latin1(const utf8_t *data, size_t len, latin1_t *result);
 
 /**
  * UTF-16
  */
 
-bool
+UTF_EXPORT bool
 utf16le_validate(const utf16_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf16_length_from_utf8(const utf8_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf16_length_from_utf32(const utf32_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf16_length_from_latin1(const latin1_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf16le_convert_to_utf8(const utf16_t *data, size_t len, utf8_t *result);
 
-size_t
+UTF_EXPORT size_t
 utf16le_convert_to_utf32(const utf16_t *data, size_t len, utf32_t *result);
 
-size_t
+UTF_EXPORT size_t
 utf16le_convert_to_latin1(const utf16_t *data, size_t len, latin1_t *result);
 
 /**
  * UTF-32
  */
 
-bool
+UTF_EXPORT bool
 utf32_validate(const utf32_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf32_length_from_utf8(const utf8_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf32_length_from_utf16le(const utf16_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf32_length_from_latin1(const latin1_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 utf32_convert_to_utf8(const utf32_t *data, size_t len, utf8_t *result);
 
-size_t
+UTF_EXPORT size_t
 utf32_convert_to_utf16le(const utf32_t *data, size_t len, utf16_t *result);
 
-size_t
+UTF_EXPORT size_t
 utf32_convert_to_latin1(const utf32_t *data, size_t len, latin1_t *result);
 
 /**
  * Latin-1
  */
 
-size_t
+UTF_EXPORT size_t
 latin1_length_from_utf8(const utf8_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 latin1_length_from_utf16le(const utf16_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 latin1_length_from_utf32(const utf32_t *data, size_t len);
 
-size_t
+UTF_EXPORT size_t
 latin1_convert_to_utf8(const latin1_t *data, size_t len, utf8_t *result);
 
-size_t
+UTF_EXPORT size_t
 latin1_convert_to_utf16le(const latin1_t *data, size_t len, utf16_t *result);
 
-size_t
+UTF_EXPORT size_t
 latin1_convert_to_utf32(const latin1_t *data, size_t len, utf32_t *result);
 
 /**
  * ASCII
  */
 
-bool
+UTF_EXPORT bool
 ascii_validate(const ascii_t *data, size_t len);
 
 /**

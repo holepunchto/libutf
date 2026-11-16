@@ -2,8 +2,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "../../include/utf.h"
-#include "../../include/utf/string.h"
+#include <utf.h>
+#include <utf/string.h>
 
 int
 main() {

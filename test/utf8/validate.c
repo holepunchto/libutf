@@ -1,6 +1,6 @@
 #include <assert.h>
 
-#include "../../include/utf.h"
+#include <utf.h>
 
 #define test_validate(string, len) \
   { \

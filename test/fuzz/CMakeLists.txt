@@ -1,26 +1,17 @@
-list(APPEND fuzzers
-  latin1/convert-to-utf8
-  latin1/convert-to-utf16
-  latin1/convert-to-utf32
-  utf8/convert-to-latin1
-  utf8/convert-to-utf16
-  utf8/convert-to-utf32
-  utf16/convert-to-latin1
-  utf16/convert-to-utf8
-  utf16/convert-to-utf32
-  utf32/convert-to-latin1
-  utf32/convert-to-utf8
-  utf32/convert-to-utf16
+add_fuzz_executables(
+  latin1/convert-to-utf8.c
+  latin1/convert-to-utf16.c
+  latin1/convert-to-utf32.c
+  utf8/convert-to-latin1.c
+  utf8/convert-to-utf16.c
+  utf8/convert-to-utf32.c
+  utf16/convert-to-latin1.c
+  utf16/convert-to-utf8.c
+  utf16/convert-to-utf32.c
+  utf32/convert-to-latin1.c
+  utf32/convert-to-utf8.c
+  utf32/convert-to-utf16.c
+  PREFIX fuzz_
+  LINK
+    utf::static
 )
-
-foreach(fuzzer IN LISTS fuzzers)
-  string(REPLACE "/" "_" name ${fuzzer})
-
-  add_fuzzer(fuzz_${name} ${fuzzer}.c)
-
-  target_link_libraries(
-    fuzz_${name}
-    PRIVATE
-      utf_static
-  )
-endforeach()
