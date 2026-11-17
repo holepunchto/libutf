@@ -1,9 +1,3 @@
-if(TARGET utf_shared)
-  set(library utf::shared)
-else()
-  set(library utf::static)
-endif()
-
 add_test_executables(
   utf8/latin1-convert.c
   utf8/utf16-convert.c
@@ -34,7 +28,7 @@ add_test_executables(
   utf32/string-reserve.c
   utf32/string-substring.c
   LINK
-    ${library}
+    utf::<TYPE>
 )
 
 add_subdirectory(fuzz)
