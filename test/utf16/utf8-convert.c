@@ -27,19 +27,20 @@ main() {
   // Surrogate pair
   test_convert("\x00\xd8\x37\xdc", 2, "\xf0\x90\x80\xb7", 4);
 
-  // Lone high surrogate followed by ASCII, must skip the surrogate (not consume the ASCII)
-  test_convert("\x00\xd8\x41\x00", 2, "\x41", 1);
+  // Lone high surrogate followed by ASCII, substituted (must not consume the ASCII)
+  test_convert("\x00\xd8\x41\x00", 2, "\xef\xbf\xbd\x41", 4);
 
-  // Lone low surrogate followed by ASCII, must skip the surrogate
-  test_convert("\x00\xdc\x41\x00", 2, "\x41", 1);
+  // Lone low surrogate followed by ASCII, substituted
+  test_convert("\x00\xdc\x41\x00", 2, "\xef\xbf\xbd\x41", 4);
 
   // High surrogate followed by another high surrogate that begins a valid pair
-  test_convert("\x00\xd8\x00\xd8\x37\xdc", 3, "\xf0\x90\x80\xb7", 4);
+  test_convert("\x00\xd8\x00\xd8\x37\xdc", 3, "\xef\xbf\xbd\xf0\x90\x80\xb7", 7);
 
-  // Lone trailing high surrogate (truncated), must not OOB-read
+  // Lone trailing high surrogate (truncated), substituted and must not OOB-read
   {
-    utf8_t result[1] = {0xaa};
-    assert(utf16le_convert_to_utf8((utf16_t *) "\x00\xd8", 1, result) == 0);
-    assert(result[0] == 0xaa);
+    utf8_t result[4] = {0xaa, 0xaa, 0xaa, 0xaa};
+    assert(utf16le_convert_to_utf8((utf16_t *) "\x00\xd8", 1, result) == 3);
+    assert(memcmp("\xef\xbf\xbd", result, 3) == 0);
+    assert(result[3] == 0xaa);
   }
 }

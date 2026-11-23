@@ -35,11 +35,20 @@ utf8_length_from_utf16le(const utf16_t *data, size_t len) {
       counter += 2;
     } else if ((word & 0xf800) != 0xd800) {
       counter += 3;
-    } else if (word < 0xdc00 && i + 1 < len) {
-      uint16_t next = utf_is_be() ? utf_swap_uint16(data[i + 1]) : data[i + 1];
-      if ((next & 0xfc00) == 0xdc00) {
+    } else {
+      bool paired = false;
+
+      if (word < 0xdc00 && i + 1 < len) {
+        uint16_t next = utf_is_be() ? utf_swap_uint16(data[i + 1]) : data[i + 1];
+        paired = (next & 0xfc00) == 0xdc00;
+      }
+
+      if (paired) {
         counter += 4;
         i++;
+      } else {
+        // U+FFFD, substituted for a surrogate that pairs with nothing
+        counter += 3;
       }
     }
   }

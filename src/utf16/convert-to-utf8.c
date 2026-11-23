@@ -23,6 +23,11 @@
  * limitations under the License.
  */
 
+// A surrogate that pairs with nothing has no scalar value. The Unicode
+// Standard section 3.9 substitutes U+FFFD for it, which is what a UTF-8
+// writer is expected to emit.
+static const utf8_t replacement[3] = {0xef, 0xbf, 0xbd};
+
 size_t
 utf16le_convert_to_utf8(const utf16_t *data, size_t len, utf8_t *result) {
   size_t pos = 0;
@@ -59,11 +64,15 @@ utf16le_convert_to_utf8(const utf16_t *data, size_t len, utf8_t *result) {
     } else {
       diff = word - 0xd800;
       if (diff > 0x3ff || pos + 1 >= len) {
+        memcpy(result, replacement, sizeof(replacement));
+        result += sizeof(replacement);
         pos++;
         continue;
       }
       word = utf_is_be() ? utf_swap_uint16(data[pos + 1]) : data[pos + 1];
       if ((word & 0xfc00) != 0xdc00) {
+        memcpy(result, replacement, sizeof(replacement));
+        result += sizeof(replacement);
         pos++;
         continue;
       }
