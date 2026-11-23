@@ -27,15 +27,15 @@ main() {
   // Multiple characters 'AΩ☃中😂'
   test_length("\x41\x00\xa9\x03\x03\x26\x2d\x4e\x3d\xd8\x02\xde", 6, 13);
 
-  // Lone high surrogate followed by ASCII, surrogate contributes 0
-  test_length("\x00\xd8\x41\x00", 2, 1);
+  // Lone high surrogate followed by ASCII, surrogate contributes U+FFFD
+  test_length("\x00\xd8\x41\x00", 2, 4);
 
-  // Lone low surrogate followed by ASCII, surrogate contributes 0
-  test_length("\x00\xdc\x41\x00", 2, 1);
+  // Lone low surrogate followed by ASCII, surrogate contributes U+FFFD
+  test_length("\x00\xdc\x41\x00", 2, 4);
 
-  // Lone trailing high surrogate, contributes 0
-  test_length("\x00\xd8", 1, 0);
+  // Lone trailing high surrogate, contributes U+FFFD
+  test_length("\x00\xd8", 1, 3);
 
-  // High surrogate not followed by low surrogate, first contributes 0, pair contributes 4
-  test_length("\x00\xd8\x00\xd8\x37\xdc", 3, 4);
+  // High surrogate not followed by low surrogate, first contributes U+FFFD, pair contributes 4
+  test_length("\x00\xd8\x00\xd8\x37\xdc", 3, 7);
 }
