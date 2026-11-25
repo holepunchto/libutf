@@ -37,6 +37,12 @@ UTF_EXPORT bool
 utf8_validate(const utf8_t *data, size_t len);
 
 UTF_EXPORT size_t
+utf8_length_from_utf8_with_replacement(const utf8_t *data, size_t len);
+
+UTF_EXPORT size_t
+utf8_convert_to_utf8_with_replacement(const utf8_t *data, size_t len, utf8_t *result);
+
+UTF_EXPORT size_t
 utf8_length_from_utf16le(const utf16_t *data, size_t len);
 
 UTF_EXPORT size_t
