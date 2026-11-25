@@ -30,6 +30,7 @@ add_library_targets(
     src/utf8/length-from-latin1.c
     src/utf8/length-from-utf16.c
     src/utf8/length-from-utf32.c
+    src/utf8/replacement.c
     src/utf8/string.c
     src/utf8/validate.c
     src/utf16/convert-to-latin1.c

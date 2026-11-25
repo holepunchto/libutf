@@ -2,6 +2,7 @@ add_test_executables(
   utf8/latin1-convert.c
   utf8/utf16-convert.c
   utf8/utf16-length.c
+  utf8/replacement.c
   utf8/validate.c
   utf8/validate-invalid.c
   utf8/string-append.c
