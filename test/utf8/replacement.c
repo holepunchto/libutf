@@ -6,8 +6,8 @@
 #define test_replacement(string, len, expected, written) \
   { \
     utf8_t result[(len) * 3]; \
-    assert(utf8_length_from_utf8_with_replacement((utf8_t *) string, len) == written); \
-    assert(utf8_convert_to_utf8_with_replacement((utf8_t *) string, len, result) == written); \
+    assert(utf8_length_with_replacement((utf8_t *) string, len) == written); \
+    assert(utf8_with_replacement((utf8_t *) string, len, result) == written); \
     assert(memcmp(expected, result, written) == 0); \
   }
 
@@ -42,12 +42,17 @@ main() {
   // byte is a subpart of its own
   test_replacement("\xe0\x80\x41", 3, FFFD FFFD "A", 7);
 
+  // Three bytes of a four byte form, completable, so one subpart covers all
+  // three
+  test_replacement("\xf1\x80\x80\x41", 4, FFFD "A", 4);
+
   // Continuation bytes with no lead
   test_replacement("\x80\x80\x41", 3, FFFD FFFD "A", 7);
 
   // Truncated at the end of the input rather than by a bad byte
   test_replacement("\xe1\x80", 2, FFFD, 3);
+  test_replacement("\xf0\x9f\x98", 3, FFFD, 3);
 
   // Nothing at all
-  assert(utf8_length_from_utf8_with_replacement((utf8_t *) "", 0) == 0);
+  assert(utf8_length_with_replacement((utf8_t *) "", 0) == 0);
 }
